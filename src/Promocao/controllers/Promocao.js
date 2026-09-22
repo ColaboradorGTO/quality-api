@@ -53,7 +53,7 @@ class PromocaoControllers  {
             const apiUrl = `${url}/api/promocoes-ativas/detalhe-promocao-ativa.xsjs?idResumoPromocao=${idResumoPromocao}&page=${page}&pageSize=${pageSize}`;
             
             const response = await axios.get(apiUrl)
-      
+            
             return res.json(response.data);
         } catch(error) {
             console.error("erro no PromocaoControllers  getListaPromocoesAtivas:", error);
@@ -184,12 +184,16 @@ class PromocaoControllers  {
                 IDSUBGRUPOEMDESTINO,
                 IDMARCAEMDESTINO,
                 IDFORNECEDOREMDESTINO,
+                STESTRUTURA,
+                STPRODUTO,
+                STESTRUTURAPRODUTO,
                 IDPRODUTODESTINO,
                 IDGRUPOEMORIGEM,
                 IDSUBGRUPOEMORIGEM,
                 IDMARCAEMORIGEM,
                 IDFORNECEDOREMORIGEM,
-                IDPRODUTOORIGEM
+                IDPRODUTOORIGEM,
+                NUTIPOPROMOCAO
             } = req.body;   
 
             if(!IDRESUMOPROMOCAOMARKETING) {
@@ -221,13 +225,16 @@ class PromocaoControllers  {
                 IDSUBGRUPOEMDESTINO,
                 IDMARCAEMDESTINO,
                 IDFORNECEDOREMDESTINO,
+                STESTRUTURA,
+                STPRODUTO,
+                STESTRUTURAPRODUTO,
                 IDPRODUTODESTINO,
                 IDGRUPOEMORIGEM,
                 IDSUBGRUPOEMORIGEM,
                 IDMARCAEMORIGEM,
                 IDFORNECEDOREMORIGEM,
-                IDPRODUTOORIGEM
-                
+                IDPRODUTOORIGEM,
+                NUTIPOPROMOCAO
                 
             }]);
             
@@ -568,7 +575,7 @@ class PromocaoControllers  {
 
         try {
                   
-            const response = await axios.post(`${url}/api/promocoes-ativas/promocao-ativa-subgrupo.xsjs`, [{      
+            const response = await axios.post(`${url}/api/promocoes-ativas/promocao-ativa-subgrupo.xsjs`, [{
                 TPAPARTIRDE,
                 TPAPLICADOA,
                 TPFATORPROMO,
