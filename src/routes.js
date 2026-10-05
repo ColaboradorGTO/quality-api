@@ -1045,7 +1045,6 @@ routes.post('/adiantamentos-salariais-integracao', ServiceLayerControllers.postI
 routes.post('/quebras-de-caixas-integracao', ServiceLayerControllers.postIntegrarQuebraCaixaSAP)
 routes.post('/pix-integracao', ServiceLayerControllers.postIntegrarPagamentoPixSAP)
 
- 
 // // Logs
 // routes.get('/log-web', LogsControllers.getListaLogsUsuario)
 routes.post('/log-web', LogsControllers.createLogsUsuario)
