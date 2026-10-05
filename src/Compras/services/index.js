@@ -1,24 +1,22 @@
-import axios from 'axios';
-import 'dotenv/config';
-const url = process.env.API_URL;
-
-export class ComprasClient {
-    constructor(baseURL) {
-        this.api = axios.create({
-            baseURL: baseURL || url,
-            timeout: 80000
-        });
+export class ComprasService {
+    constructor(client) {
+        this.client = client;
     }
 
-    async atualizarStatusPedido(IDRESUMOPEDIDO, IDANDAMENTO, IDRESPCANCELAMENTO, DSMOTIVOCANCELAMENTO, DTCANCELAMENTO, STCANCELADO) {
-        
-        const response = await this.api.put(`${url}/api/compras/atualizacao-status-pedido.xsjs`, {
-            IDRESUMOPEDIDO, IDANDAMENTO, IDRESPCANCELAMENTO, DSMOTIVOCANCELAMENTO, DTCANCELAMENTO, STCANCELADO
-        });
+    async updateStatusPedido(IDRESUMOPEDIDO, IDANDAMENTO, IDRESPCANCELAMENTO, DSMOTIVOCANCELAMENTO, DTCANCELAMENTO, STCANCELADO) {
+        if (!IDRESUMOPEDIDO) {
+            throw new Error('ID do resumo do pedido é obrigatório.');
+        }
+
+        if (!IDRESPCANCELAMENTO) {
+            throw new Error('ID do responsável pelo cancelamento é obrigatório.');
+        }
+
+        const response = await this.client.atualizarStatusPedido(IDRESUMOPEDIDO, IDANDAMENTO, IDRESPCANCELAMENTO, DSMOTIVOCANCELAMENTO, DTCANCELAMENTO, STCANCELADO);
         return response.data;
     }
-    
-    async atualizarDetalhePedido(
+
+    async updateDetalhePedido(
         idDetPedido,
         IDCOR,
         IDSUBGRUPOESTRUTURA,
@@ -50,9 +48,17 @@ export class ComprasClient {
         IDPRODUTO,
         IDRESPATUALIZACAO,
         GRADE,
-        STPEDIDOPORINTEMEDIARIO    
+        STPEDIDOPORINTEMEDIARIO
     ) {
-        const response = await this.api.put(`${url}/api/compras/lista_detalhepedidos.xsjs`, [{
+        if (!idDetPedido) {
+            throw new Error('ID do detalhe do pedido é obrigatório.');
+        }
+
+        if (!IDRESPATUALIZACAO) {
+            throw new Error('ID do responsável pela atualização é obrigatório.');
+        }
+
+        const response = await this.client.atualizarDetalhePedido(
             idDetPedido,
             IDCOR,
             IDSUBGRUPOESTRUTURA,
@@ -85,12 +91,11 @@ export class ComprasClient {
             IDRESPATUALIZACAO,
             GRADE,
             STPEDIDOPORINTEMEDIARIO
-        }]);
-      
+        );
         return response.data;
     }
 
-    async atualizarPedido(
+    async updatePedido(
         IDRESUMOPEDIDO,
         IDGRUPOEMPRESARIAL,
         IDSUBGRUPOEMPRESARIAL,
@@ -122,7 +127,12 @@ export class ComprasClient {
         STRASCUNHO,
         STPEDIDOPORINTEMEDIARIO
     ) {
-        const response = await this.api.put(`${url}/api/compras/atualizar-pedido.xsjs`, {
+        if (!IDRESUMOPEDIDO) {
+            throw new Error('ID do resumo do pedido é obrigatório.');
+        }
+
+
+        const response = await this.client.atualizarPedido(
             IDRESUMOPEDIDO,
             IDGRUPOEMPRESARIAL,
             IDSUBGRUPOEMPRESARIAL,
@@ -153,12 +163,53 @@ export class ComprasClient {
             TPFISCAL,
             STRASCUNHO,
             STPEDIDOPORINTEMEDIARIO
-        });
-      
+        );
         return response.data;
     }
 
-    async atualizarFinalizandoPedido(
+    async updateCancelarPedido(
+        IDRESUMOPEDIDO,
+        IDANDAMENTO,
+        IDRESPCANCELAMENTO,
+        DSMOTIVOCANCELAMENTO,
+        DTCANCELAMENTO,
+        STCANCELADO
+    ) {
+        if (!IDRESUMOPEDIDO) {
+            throw new Error('ID do resumo do pedido é obrigatório.');
+        }
+
+
+        const response = await this.client.cancelarPedido(
+            IDRESUMOPEDIDO,
+            IDANDAMENTO,
+            IDRESPCANCELAMENTO,
+            DSMOTIVOCANCELAMENTO,
+            DTCANCELAMENTO,
+            STCANCELADO
+        );
+        return response.data;
+    }
+
+    async updateReativarPedido(
+        IDRESUMOPEDIDO,
+        IDRESPREATIVACAO,
+        TXTMOTIVOREATIVACAO
+    ) {
+        if (!IDRESUMOPEDIDO) {
+            throw new Error('ID do resumo do pedido é obrigatório.');
+        }
+
+
+        const response = await this.client.reativarPedido(
+            IDRESUMOPEDIDO,
+            IDRESPREATIVACAO,
+            TXTMOTIVOREATIVACAO
+        );
+        return response.data;
+    }
+
+    async updateFinalizarPedido(
         IDGRUPOEMPRESARIAL,
         IDSUBGRUPOEMPRESARIAL,
         IDCOMPRADOR,
@@ -188,9 +239,13 @@ export class ComprasClient {
         TPFISCAL,
         STRASCUNHO,
         IDRESUMOPEDIDO
-        
     ) {
-        const response = await this.api.put(`${url}/api/compras/finalizar-pedido.xsjs`, {
+        if (!IDRESUMOPEDIDO) {
+            throw new Error('ID do resumo do pedido é obrigatório.');
+        }
+
+
+        const response = await this.client.atualizarFinalizandoPedido(
             IDGRUPOEMPRESARIAL,
             IDSUBGRUPOEMPRESARIAL,
             IDCOMPRADOR,
@@ -220,48 +275,11 @@ export class ComprasClient {
             TPFISCAL,
             STRASCUNHO,
             IDRESUMOPEDIDO
-        });
-      
+        );
         return response.data;
     }
 
-
-    async cancelarPedido(
-        IDRESUMOPEDIDO,   
-        IDANDAMENTO, 
-        IDRESPCANCELAMENTO, 
-        DSMOTIVOCANCELAMENTO, 
-        DTCANCELAMENTO, 
-        STCANCELADO
-        
-    ) {
-        const response = await this.api.put(`${url}/api/compras/cancelamento-pedido.xsjs`, {
-            IDRESUMOPEDIDO,   
-            IDANDAMENTO, 
-            IDRESPCANCELAMENTO, 
-            DSMOTIVOCANCELAMENTO, 
-            DTCANCELAMENTO, 
-            STCANCELADO
-        });
-      
-        return response.data;
-    }
-
-    async reativarPedido(
-        IDRESUMOPEDIDO,   
-        IDRESPREATIVACAO, 
-        TXTMOTIVOREATIVACAO
-    ) {
-        const response = await this.api.put(`${url}/api/compras/ativar-pedido.xsjs`, {
-            IDRESUMOPEDIDO,   
-            IDRESPREATIVACAO, 
-            TXTMOTIVOREATIVACAO
-        });
-      
-        return response.data;
-    }
-
-    async atualizarDistribuicaoHistorico(
+    async updateDistribuicaoHistorico(
         IDDISTRIBUICAOCOMPRASHISTORICO,
         IDPEDIDOCOMPRA,
         IDEMPRESA,
@@ -271,8 +289,11 @@ export class ComprasClient {
         IDUSUARIOALTERACAO,
         FINALIZAR
     ) {
-        
-        const response = await this.api.put(`${url}/api/compras/distribuicao-compras-historico.xsjs`, [{
+        if (!IDPEDIDOCOMPRA) {
+            throw new Error('ID do pedido de compra é obrigatório.');
+        }
+
+        const response = await this.client.atualizarDistribuicaoHistorico(
             IDDISTRIBUICAOCOMPRASHISTORICO,
             IDPEDIDOCOMPRA,
             IDEMPRESA,
@@ -281,43 +302,49 @@ export class ComprasClient {
             QTDSUGESTAOALTERACAOHISTORICO,
             IDUSUARIOALTERACAO,
             FINALIZAR
-        }]);
+        );
         return response.data;
     }
-   
-    async atualizarDistribuicaoHistoricoADM(
+
+    async updateDistribuicaoHistoricoADM(
         IDPEDIDOCOMPRA,
         IDUSUARIO,
         FINALIZAR
     ) {
-        
-        const response = await this.api.put(`${url}/api/compras/distribuicao-compras-historico.xsjs`, [{
+        if (!IDPEDIDOCOMPRA) {
+            throw new Error('ID do pedido de compra é obrigatório.');
+        }
+
+        const response = await this.client.atualizarDistribuicaoHistoricoADM(
             IDPEDIDOCOMPRA,
             IDUSUARIO,
             FINALIZAR
-        }]);
+        );
         return response.data;
     }
 
-    async atualizarStatusProdutoPedido(
-        IDDETALHEPEDIDO, 
-        STCANCELADO, 
-        IDRESPCANCELAMENTO, 
+    async updateStatusProdutoPedido(
+        IDDETALHEPEDIDO,
+        STCANCELADO,
+        IDRESPCANCELAMENTO,
         TXTOBSCANCELAMENTO,
         IDRESUMOPEDIDO
     ) {
-        
-        const response = await this.api.put(`${url}/api/compras/atualizacao-status-produto-pedido.xsjs`, {
-            IDDETALHEPEDIDO, 
-            STCANCELADO, 
-            IDRESPCANCELAMENTO, 
+        if (!IDDETALHEPEDIDO) {
+            throw new Error('ID do detalhe do pedido é obrigatório.');
+        }
+
+        const response = await this.client.atualizarStatusProdutoPedido(
+            IDDETALHEPEDIDO,
+            STCANCELADO,
+            IDRESPCANCELAMENTO,
             TXTOBSCANCELAMENTO,
             IDRESUMOPEDIDO
-        });
+        );
         return response.data;
     }
 
-    async atualizarFornecedor(
+    async updateFornecedor(
         IDFORNECEDOR,
         IDGRUPOEMPRESARIAL,
         IDSUBGRUPOEMPRESARIAL,
@@ -352,8 +379,11 @@ export class ComprasClient {
         TPFISCALPADRAO,
         EMAILVENDEDORPADRAO
     ) {
-        
-        const response = await this.api.put(`${url}/api/compras/fornecedor.xsjs`, [{
+        if (!IDFORNECEDOR) {
+            throw new Error('ID do fornecedor é obrigatório.');
+        }
+
+        const response = await this.client.atualizarFornecedor(
             IDFORNECEDOR,
             IDGRUPOEMPRESARIAL,
             IDSUBGRUPOEMPRESARIAL,
@@ -387,95 +417,89 @@ export class ComprasClient {
             TPARQUIVOPADRAO,
             TPFISCALPADRAO,
             EMAILVENDEDORPADRAO
-        }]);
+        );
         return response.data;
     }
 
-    async atualizarFornecedorFabricante(
-        IDFABRICANTEFORN,
-        IDFABRICANTE,
-        IDFORNECEDOR,
-        STATIVO,
-    ) {
-        
-        const response = await this.api.put(`${url}/api/compras/fornecedor-fabricante.xsjs`, [{
-            IDFABRICANTEFORN,
-            IDFABRICANTE,
-            IDFORNECEDOR,
-            STATIVO,
-        }]);
-        return response.data;
-    }
-    
-    async atualizarFabricanteFornecedor(
+    async updateFornecedorFabricante(
         IDFABRICANTEFORN,
         IDFABRICANTE,
         IDFORNECEDOR,
         STATIVO
     ) {
-        
-        const response = await this.api.put(`${url}/api/compras/fabricante-fornecedor.xsjs`, [{
+        if (!IDFABRICANTEFORN) {
+            throw new Error('ID do fabricante-fornecedor é obrigatório.');
+        }
+
+        const response = await this.client.atualizarFornecedorFabricante(
             IDFABRICANTEFORN,
             IDFABRICANTE,
             IDFORNECEDOR,
             STATIVO
-        }]);
+        );
         return response.data;
     }
 
-    async atualizarFabricante(
+    async updateFabricanteFornecedor(
+        IDFABRICANTEFORN,
+        IDFABRICANTE,
+        IDFORNECEDOR,
+        STATIVO
+    ) {
+        if (!IDFABRICANTEFORN) {
+            throw new Error('ID do fabricante-fornecedor é obrigatório.');
+        }
+
+        const response = await this.client.atualizarFabricanteFornecedor(
+            IDFABRICANTEFORN,
+            IDFABRICANTE,
+            IDFORNECEDOR,
+            STATIVO
+        );
+        return response.data;
+    }
+
+    async updateFabricante(
         IDFABRICANTE,
         DSFABRICANTE,
         DTULTATUALIZACAO,
         DTCADASTRO,
         STATIVO
     ) {
-        
-        const response = await this.api.put(`${url}/api/compras/fabricante.xsjs`, [{
+        if (!IDFABRICANTE) {
+            throw new Error('ID do fabricante é obrigatório.');
+        }
+
+        const response = await this.client.atualizarFabricante(
             IDFABRICANTE,
             DSFABRICANTE,
             DTULTATUALIZACAO,
             DTCADASTRO,
             STATIVO
-        }]);
+        );
         return response.data;
     }
-    
-    async atualizarCategoriaPedidos(
+
+    async updateCategoriaPedidos(
         IDCATEGORIAPEDIDO,
         DSCATEGORIAPEDIDO,
         TIPOPEDIDO,
         STATIVO
     ) {
-        
-        const response = await this.api.put(`${url}/api/compras/categoriapedidos.xsjs`, [{
+        if (!IDCATEGORIAPEDIDO) {
+            throw new Error('ID da categoria de pedido é obrigatório.');
+        }
+
+        const response = await this.client.atualizarCategoriaPedidos(
             IDCATEGORIAPEDIDO,
             DSCATEGORIAPEDIDO,
             TIPOPEDIDO,
             STATIVO
-        }]);
-        return response.data;
-    }
-   
-    async atualizarTipoTecidos(
-        IDTPTECIDO,
-        DSTIPOTECIDO,
-        DSSIGLA,
-        STATIVO,
-        IDFUNCIONARIO
-    ) {
-        
-        const response = await this.api.put(`${url}/api/compras/tipotecidos.xsjs`, [{
-            IDTPTECIDO,
-            DSTIPOTECIDO,
-            DSSIGLA,
-            STATIVO,
-            IDFUNCIONARIO
-        }]);
+        );
         return response.data;
     }
 
-    async atualizarEstilos(
+    async updateEstilos(
         IDVINCESTILOSESTRUTURA,
         IDGRUPOESTRUTURAANTIGA,
         IDESTILO,
@@ -483,19 +507,43 @@ export class ComprasClient {
         IDGRUPOESTRUTURA,
         STATIVO
     ) {
-        
-        const response = await this.api.put(`${url}/api/compras/estilos.xsjs`, [{
+        if (!IDESTILO) {
+            throw new Error('ID do estilo é obrigatório.');
+        }
+
+        const response = await this.client.atualizarEstilos(
             IDVINCESTILOSESTRUTURA,
             IDGRUPOESTRUTURAANTIGA,
             IDESTILO,
             DSESTILO,
             IDGRUPOESTRUTURA,
             STATIVO
-        }]);
+        );
         return response.data;
     }
 
-    async atualizarCores(
+    async updateTipoTecidos(
+        IDTPTECIDO,
+        DSTIPOTECIDO,
+        DSSIGLA,
+        STATIVO,
+        IDFUNCIONARIO
+    ) {
+        if (!IDTPTECIDO) {
+            throw new Error('ID do tipo de tecido é obrigatório.');
+        }
+
+        const response = await this.client.atualizarTipoTecidos(
+            IDTPTECIDO,
+            DSTIPOTECIDO,
+            DSSIGLA,
+            STATIVO,
+            IDFUNCIONARIO
+        );
+        return response.data;
+    }
+
+    async updateCores(
         IDGRUPOCOR,
         DSCOR,
         DSSIGLA,
@@ -503,19 +551,22 @@ export class ComprasClient {
         IDFUNCIONARIO,
         IDCOR
     ) {
-        
-        const response = await this.api.put(`${url}/api/compras/cores.xsjs`, [{
+        if (!IDCOR) {
+            throw new Error('ID da cor é obrigatório.');
+        }
+
+        const response = await this.client.atualizarCores(
             IDGRUPOCOR,
             DSCOR,
             DSSIGLA,
             STATIVO,
             IDFUNCIONARIO,
             IDCOR
-        }]);
+        );
         return response.data;
     }
 
-    async atualizarUnidadeMedida(
+    async updateUnidadeMedida(
         IDUNIDADEMEDIDA,
         DSUNIDADE,
         DSSIGLA,
@@ -523,37 +574,41 @@ export class ComprasClient {
         DTULTATUALIZACAO,
         STATIVO
     ) {
-        
-        const response = await this.api.put(`${url}/api/compras/unidadesdemedidas.xsjs`, [{
+        if (!IDUNIDADEMEDIDA) {
+            throw new Error('ID da Unidade de Medida é obrigatório.');
+        }
+
+        const response = await this.client.atualizarUnidadeMedida(
             IDUNIDADEMEDIDA,
             DSUNIDADE,
             DSSIGLA,
             DTCADASTRO,
             DTULTATUALIZACAO,
             STATIVO
-           
-        }]);
+        );
         return response.data;
     }
 
-    async atualizarGrupoEstrutura(
+    async updateGrupoEstrutura(
         IDGRUPOESTRUTURA,
         IDGRUPOEMPRESARIAL,
         DSGRUPOESTRUTURA,
         STATIVO
     ) {
-        
-        const response = await this.api.put(`${url}/api/compras/grupoextrutura.xsjs`, [{
+        if (!IDGRUPOESTRUTURA) {
+            throw new Error('ID do Grupo de Estrutura é obrigatório.');
+        }
+
+        const response = await this.client.atualizarGrupoEstrutura(
             IDGRUPOESTRUTURA,
             IDGRUPOEMPRESARIAL,
             DSGRUPOESTRUTURA,
             STATIVO
-        }]);
-        
+        );
         return response.data;
     }
 
-    async atualizarSubGrupoEstrutura(
+    async updateSubGrupoEstrutura(
         IDGRUPOESTRUTURAANTIGA,
         IDGRUPOESTRUTURA,
         DSSUBGRUPOESTRUTURA,
@@ -562,8 +617,11 @@ export class ComprasClient {
         IDSUBGRUPOESTRUTURA,
         STATIVO
     ) {
-        
-        const response = await this.api.put(`${url}/api/compras/subgrupoestrutura.xsjs`, [{
+        if (!IDGRUPOESTRUTURA) {
+            throw new Error('ID do Grupo de Estrutura é obrigatório.');
+        }
+
+        const response = await this.client.atualizarSubGrupoEstrutura(
             IDGRUPOESTRUTURAANTIGA,
             IDGRUPOESTRUTURA,
             DSSUBGRUPOESTRUTURA,
@@ -571,12 +629,11 @@ export class ComprasClient {
             CODSUBGRUPOESTRUTURA,
             IDSUBGRUPOESTRUTURA,
             STATIVO
-        }]);
-        
+        );
         return response.data;
     }
-   
-    async atualizarCondicaoPagamento(
+
+    async updateCondicaoPagamento(
         IDCONDICAOPAGAMENTO,
         IDGRUPOEMPRESARIAL,
         DSCONDICAOPAG,
@@ -600,8 +657,11 @@ export class ComprasClient {
         STATIVO,
         IDTPDOCUMENTO
     ) {
-        
-        const response = await this.api.put(`${url}/api/compras/condicaopagamento.xsjs`, [{
+        if (!IDCONDICAOPAGAMENTO) {
+            throw new Error('ID da Condição de Pagamento é obrigatório.');
+        }
+
+        const response = await this.client.atualizarCondicaoPagamento(
             IDCONDICAOPAGAMENTO,
             IDGRUPOEMPRESARIAL,
             DSCONDICAOPAG,
@@ -624,12 +684,11 @@ export class ComprasClient {
             DSTPDOCUMENTO,
             STATIVO,
             IDTPDOCUMENTO
-        }]);
-        
+        );
         return response.data;
     }
 
-    async atualizarTransportador(
+    async updateTransportador(
         IDTRANSPORTADORA,
         IDGRUPOEMPRESARIAL,
         IDSUBGRUPOEMPRESARIAL,
@@ -655,12 +714,11 @@ export class ComprasClient {
         DTULTATUALIZACAO,
         STATIVO
     ) {
-        
-        if(!IDTRANSPORTADORA) {
-            throw new Error("IDTRANSPORTADORA é obrigatório para atualizar um transportador.");
+        if (!IDTRANSPORTADORA) {
+            throw new Error('ID do Transportador é obrigatório.');
         }
 
-        const response = await this.api.put(`${url}/api/compras/transportador.xsjs`, [{
+        const response = await this.client.atualizarTransportador(
             IDTRANSPORTADORA,
             IDGRUPOEMPRESARIAL,
             IDSUBGRUPOEMPRESARIAL,
@@ -685,46 +743,41 @@ export class ComprasClient {
             DTCADASTRO,
             DTULTATUALIZACAO,
             STATIVO
-        }]);
-        
+        );
         return response.data;
     }
 
-    async atualizarProdutoImagem(
-        IDIMAGEMPRODUTO,
-        STATIVO
-    ) {
-        
-        if(!IDIMAGEMPRODUTO) {
-            throw new Error("IDIMAGEMPRODUTO é obrigatório para atualizar uma imagem.");
-        }
-
-        const response = await this.api.put(`${url}/api/compras/atualiza_produtosimagem.xsjs`, {
-            IDIMAGEMPRODUTO,
-            STATIVO
-        });
-        
-        return response.data;
-    }
-
-    async atualizarImagem(
+    async updateImagem(
         STATIVO,
         IDIMAGEM
     ) {
-        
-        if(!IDIMAGEM) {
-            throw new Error("IDIMAGEM é obrigatório para atualizar uma imagem.");
+        if (!IDIMAGEM) {
+            throw new Error('ID da Imagem é obrigatório.');
         }
 
-        const response = await this.api.put(`${url}/api/compras/atualiza_imagem.xsjs`, {
+        const response = await this.client.atualizarImagem(
             STATIVO,
             IDIMAGEM
-        });
-        
+        );
         return response.data;
     }
 
-    async atualizarListaPromocao(
+    async updateImagemProduto(
+        IDIMAGEMPRODUTO,
+        STATIVO
+    ) {
+        if (!IDIMAGEMPRODUTO) {
+            throw new Error('ID da Imagem do Produto é obrigatório.');
+        }
+
+        const response = await this.client.atualizarProdutoImagem(
+            IDIMAGEMPRODUTO,
+            STATIVO
+        );
+        return response.data;
+    }
+
+    async updateListaPromocao(
         DSPROMOCAOMARKETING,
         DTHORAINICIO,
         DTHORAFIM,
@@ -741,7 +794,7 @@ export class ComprasClient {
         STDETPROMODESTINO
     ) {
         
-        const response = await this.api.put(`${url}/api/compras/lista_promocoes.xsjs`, [{
+        const response = await this.client.atualizarListaPromocao(
             DSPROMOCAOMARKETING,
             DTHORAINICIO,
             DTHORAFIM,
@@ -756,53 +809,25 @@ export class ComprasClient {
             STEMPRESAPROMO,
             STDETPROMOORIGEM,
             STDETPROMODESTINO
-        }]);
+        );
         return response.data;
     }
 
-    async atualizarAndamentoPedido(
+    async updateAndamentoPedido(
         IDRESUMOPEDIDO,
         IDANDAMENTO,
         TXTOBSDEVPEDIDO
     ) {
         
-        const response = await this.api.put(`${url}/api/compras/atualizacao-andamento-pedido.xsjs`, {
+        const response = await this.client.atualizarAndamentoPedido(
             IDRESUMOPEDIDO,
             IDANDAMENTO,
             TXTOBSDEVPEDIDO
-        });
+        );
         return response.data;
     }
 
-    async criarFornecedorFabricante(
-        IDFABRICANTE,
-        IDFORNECEDOR,
-        STATIVO
-    ) {
-        
-        const response = await this.api.post(`${url}/api/compras/fornecedor-fabricante.xsjs`, [{
-            IDFABRICANTE,
-            IDFORNECEDOR,
-            STATIVO
-        }]);
-        return response.data;
-    }
-    
-    async criarFabricanteFornecedor(
-        IDFABRICANTE,
-        IDFORNECEDOR,
-        STATIVO
-    ) {
-        
-        const response = await this.api.post(`${url}/api/compras/fabricante-fornecedor.xsjs`, [{
-            IDFABRICANTE,
-            IDFORNECEDOR,
-            STATIVO
-        }]);
-        return response.data;
-    }
-
-    async criarDetalhePedido(
+    async createDetalhePedido(
         IDRESUMOPEDIDO,
         IDCOR,
         IDSUBGRUPOESTRUTURA,
@@ -837,10 +862,13 @@ export class ComprasClient {
         IDPRODUTO,
         IDRESPCADASTRO,
         GRADE,
-        STPEDIDOPORINTEMEDIARIO    
+        STPEDIDOPORINTEMEDIARIO
     ) {
-       
-        const response = await this.api.post(`${url}/api/compras/lista_detalhepedidos.xsjs`, [{
+        if (!IDRESUMOPEDIDO) {
+            throw new Error('ID do resumo do pedido é obrigatório.');
+        }
+
+        const response = await this.client.criarDetalhePedido(
             IDRESUMOPEDIDO,
             IDCOR,
             IDSUBGRUPOESTRUTURA,
@@ -876,12 +904,11 @@ export class ComprasClient {
             IDRESPCADASTRO,
             GRADE,
             STPEDIDOPORINTEMEDIARIO
-        }]);
-        
+        );
         return response.data;
     }
 
-    async criarEstilo(
+    async createEstilo(
         IDGRUPOESTRUTURAANTIGA,
         IDVINCESTILOSESTRUTURA,
         IDESTILO,
@@ -889,53 +916,62 @@ export class ComprasClient {
         IDGRUPOESTRUTURA,
         STATIVO
     ) {
-        const response = await this.api.post(`${url}/api/compras/estilos.xsjs`, [{
-            IDGRUPOESTRUTURAANTIGA: parseInt(null),
-            IDVINCESTILOSESTRUTURA: parseInt(null),
-            IDESTILO: parseInt(null),
+        if (!IDGRUPOESTRUTURA) {
+            throw new Error('ID do grupo de estrutura é obrigatório.');
+        }
+
+        const response = await this.client.criarEstilo(
+            IDGRUPOESTRUTURAANTIGA,
+            IDVINCESTILOSESTRUTURA,
+            IDESTILO,
             DSESTILO,
             IDGRUPOESTRUTURA,
-            STATIVO,
-        }]);
-
+            STATIVO
+        );
         return response.data;
     }
 
-    async criarCor(
+    async createCor(
         IDGRUPOCOR,
         DSCOR,
         STATIVO,
         IDFUNCIONARIO
     ) {
-        const response = await this.api.post(`${url}/api/compras/cores.xsjs`, [{
+        if (!IDGRUPOCOR) {
+            throw new Error('ID do grupo de cor é obrigatório.');
+        }
+
+        const response = await this.client.criarCor(
             IDGRUPOCOR,
             DSCOR,
             STATIVO,
             IDFUNCIONARIO
-        }]);
+        );
         return response.data;
     }
 
-     async criarUnidadeMedida(
+    async createUnidadeMedida(
         DSUNIDADE,
         DSSIGLA,
         DTCADASTRO,
         DTULTATUALIZACAO,
         STATIVO
     ) {
-        
-        const response = await this.api.post(`${url}/api/compras/unidadesdemedidas.xsjs`, [{
+        if (!DSUNIDADE) {
+            throw new Error('DSUNIDADE é obrigatório.');
+        }
+
+        const response = await this.client.criarUnidadeMedida(
             DSUNIDADE,
             DSSIGLA,
             DTCADASTRO,
             DTULTATUALIZACAO,
             STATIVO
-           
-        }]);
+        );
         return response.data;
     }
 
-    async criarSubGrupoEstrutura(
+    async createSubGrupoEstrutura(
         IDGRUPOESTRUTURA,
         DSSUBGRUPOESTRUTURA,
         DSSUBGRUPOESTRUTURAFIM,
@@ -943,66 +979,77 @@ export class ComprasClient {
         IDSUBGRUPOESTRUTURA,
         STATIVO
     ) {
-        
-        const response = await this.api.post(`${url}/api/compras/subgrupoestrutura.xsjs`, [{
+        if (!IDGRUPOESTRUTURA) {
+            throw new Error('ID do Grupo de Estrutura é obrigatório.');
+        }
+
+        const response = await this.client.criarSubGrupoEstrutura(
             IDGRUPOESTRUTURA,
             DSSUBGRUPOESTRUTURA,
             DSSUBGRUPOESTRUTURAFIM,
             CODSUBGRUPOESTRUTURA,
             IDSUBGRUPOESTRUTURA,
             STATIVO
-        }]);
-        
+        );
         return response.data;
     }
-
-    async criarGrupoEstrutura(
+    
+    async createGrupoEstrutura(
         DSGRUPOESTRUTURA,
         IDGRUPOEMPRESARIAL,
         STATIVO
     ) {
-        
-        const response = await this.api.post(`${url}/api/compras/grupoextrutura.xsjs`, [{
+
+        if (!DSGRUPOESTRUTURA) {
+            throw new Error('DSGRUPOESTRUTURA é obrigatório.');
+        }
+
+        const response = await this.client.criarGrupoEstrutura(
             DSGRUPOESTRUTURA,
             IDGRUPOEMPRESARIAL,
             STATIVO
-        }]);
-        
+        );
         return response.data;
     }
 
-    async criarCategoriaPedidos(
+    async createCategoriaPedidos(
         DSCATEGORIAPEDIDO,
         TIPOPEDIDO,
         STATIVO
     ) {
-        
-        const response = await this.api.post(`${url}/api/compras/categoriapedidos.xsjs`, [{
+
+        if (!DSCATEGORIAPEDIDO) {
+            throw new Error('DSCATEGORIAPEDIDO é obrigatório.');
+        }
+
+        const response = await this.client.criarCategoriaPedidos(
             DSCATEGORIAPEDIDO,
             TIPOPEDIDO,
             STATIVO
-        }]);
-        
+        );
         return response.data;
     }
 
-    async criarVinculoCategoriaPedido(
+    async createVinculoCategoriaPedido(
         IDCATEGORIAPEDIDO,
         IDTAMANHO,
         STATIVO
     ) {
-        
-        const response = await this.api.post(`${url}/api/compras/vinctamcat.xsjs`, [{
+
+        if (!IDCATEGORIAPEDIDO) {
+            throw new Error('IDCATEGORIAPEDIDO é obrigatório.');
+        }
+
+        const response = await this.client.criarVinculoCategoriaPedido(
             IDCATEGORIAPEDIDO,
             IDTAMANHO,
             STATIVO
-        }]);
-        
+        );
         return response.data;
     }
-   
-    async criarCondicaoPagamento(
-        IDGRUPOEMPRESARIAL,
+    
+    async createCondicaoPagamento(
+         IDGRUPOEMPRESARIAL,
         DSCONDICAOPAG,
         STPARCELADO,
         NUPARCELAS,
@@ -1023,8 +1070,8 @@ export class ComprasClient {
         STATIVO,
         QTDDIAS
     ) {
-        
-        const response = await this.api.post(`${url}/api/compras/condicaopagamento.xsjs`, [{
+
+        const response = await this.client.criarCondicaoPagamento(
             IDGRUPOEMPRESARIAL,
             DSCONDICAOPAG,
             STPARCELADO,
@@ -1045,12 +1092,11 @@ export class ComprasClient {
             DTULTALTERACAO,
             STATIVO,
             QTDDIAS
-        }]);
-        
+        );
         return response.data;
     }
-  
-    async criarCadastroTransportador(
+    
+    async createCadastroTransportador(
         IDGRUPOEMPRESARIAL,
         IDSUBGRUPOEMPRESARIAL,
         NORAZAOSOCIAL,
@@ -1075,11 +1121,8 @@ export class ComprasClient {
         DTULTATUALIZACAO,
         STATIVO
     ) {
-        if(!NUCNPJ) {
-            return res.status(400).json({ error: "O campo 'NUCNPJ' é obrigatório e não pode estar vazio." });
-        }
 
-        const response = await this.api.post(`${url}/api/compras/transportador.xsjs`, [{
+        const response = await this.client.criarCadastroTransportador(
             IDGRUPOEMPRESARIAL,
             IDSUBGRUPOEMPRESARIAL,
             NORAZAOSOCIAL,
@@ -1103,32 +1146,55 @@ export class ComprasClient {
             DTCADASTRO,
             DTULTATUALIZACAO,
             STATIVO
-        }]);
-        
+        );
         return response.data;
     }
-
-    async criarFabricante(
+    
+    async createFabricante(
         DSFABRICANTE,
         DTCADASTRO,
         DTULTATUALIZACAO,
         STATIVO,
     ) {
-        if(!DSFABRICANTE) {
-            return res.status(400).json({ error: "O campo 'DSFABRICANTE' é obrigatório e não pode estar vazio." });
-        }
 
-        const response = await this.api.post(`${url}/api/compras/fabricante.xsjs`, [{
+        const response = await this.client.criarFabricante(
             DSFABRICANTE,
             DTCADASTRO,
             DTULTATUALIZACAO,
             STATIVO,
-        }]);
-        
+        );
+        return response.data;
+    }
+    
+    async createFabricanteFornecedor(
+        IDFABRICANTE,
+        IDFORNECEDOR,
+        STATIVO,
+    ) {
+
+        const response = await this.client.criarFabricanteFornecedor(
+            IDFABRICANTE,
+            IDFORNECEDOR,
+            STATIVO,
+        );
+        return response.data;
+    }
+  
+    async createFornecedorFabricante(
+        IDFABRICANTE,
+        IDFORNECEDOR,
+        STATIVO,
+    ) {
+
+        const response = await this.client.criarFornecedorFabricante(
+            IDFABRICANTE,
+            IDFORNECEDOR,
+            STATIVO,
+        );
         return response.data;
     }
 
-    async criarFornecedor(
+    async createFornecedor(
         IDGRUPOEMPRESARIAL,
         IDSUBGRUPOEMPRESARIAL,
         MODPEDIDO,
@@ -1162,8 +1228,11 @@ export class ComprasClient {
         TPFISCALPADRAO,
         EMAILVENDEDORPADRAO
     ) {
-        
-        const response = await this.api.post(`${url}/api/compras/fornecedor.xsjs`, [{
+        if (!IDGRUPOEMPRESARIAL) {
+            throw new Error('ID do grupo empresarial é obrigatório.');
+        }
+
+        const response = await this.client.criarFornecedor(
             IDGRUPOEMPRESARIAL,
             IDSUBGRUPOEMPRESARIAL,
             MODPEDIDO,
@@ -1196,29 +1265,29 @@ export class ComprasClient {
             TPARQUIVOPADRAO,
             TPFISCALPADRAO,
             EMAILVENDEDORPADRAO
-        }]);
+        );
         return response.data;
     }
 
-    async criarImagemProduto(
+    async createImagemProduto(
         IDRESUMOPEDIDO,
         NUREF,
         IMAGEM,
         STATIVO,
         IDPRODIMAGEM
     ) {
-        
-        const response = await this.api.post(`${url}/api/compras/imagemproduto.xsjs`, [{
+
+        const response = await this.client.criarImagemProduto(
             IDRESUMOPEDIDO,
             NUREF,
             IMAGEM,
             STATIVO,
             IDPRODIMAGEM
-        }]);
+        );
         return response.data;
     }
 
-    async criarListaPromocao(
+     async createListaPromocao(
         DSPROMOCAOMARKETING,
         DTHORAINICIO,
         DTHORAFIM,
@@ -1235,7 +1304,7 @@ export class ComprasClient {
         STDETPROMODESTINO
     ) {
         
-        const response = await this.api.post(`${url}/api/compras/lista_promocoes.xsjs`, [{
+        const response = await this.client.criarListaPromocao(
             DSPROMOCAOMARKETING,
             DTHORAINICIO,
             DTHORAFIM,
@@ -1250,7 +1319,7 @@ export class ComprasClient {
             STEMPRESAPROMO,
             STDETPROMOORIGEM,
             STDETPROMODESTINO
-        }]);
+        );
         return response.data;
     }
 }
