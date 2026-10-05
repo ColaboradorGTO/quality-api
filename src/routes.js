@@ -1044,6 +1044,10 @@ routes.post('/deposito-integracao', ServiceLayerControllers.postDepositoIntegrar
 routes.post('/adiantamentos-salariais-integracao', ServiceLayerControllers.postIntegrarAdiantamentoSalarial)
 routes.post('/quebras-de-caixas-integracao', ServiceLayerControllers.postIntegrarQuebraCaixaSAP)
 routes.post('/pix-integracao', ServiceLayerControllers.postIntegrarPagamentoPixSAP)
+routes.post('/migrar-produto-avulso', ServiceLayerControllers.postMigrarProdutoAvulso)
+routes.post('/integrar-despesa', ServiceLayerControllers.postIntegrarDespesaSAP)
+routes.post('/incluir-atualizar-produto', ServiceLayerControllers.postMigrarProdutoSAP)
+routes.post('/por-codigo-pedido-compra', ServiceLayerControllers.postMigrarPedidoSAP)
 
 // // Logs
 // routes.get('/log-web', LogsControllers.getListaLogsUsuario)

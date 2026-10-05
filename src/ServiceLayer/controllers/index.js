@@ -8,6 +8,19 @@ import 'dotenv/config';
 const url = process.env.API_URL;
 
 class ServiceLayerControllers {
+    async postMigrarProdutoAvulso(req, res) {
+        try {
+          
+            let { IDDETALHEPRODUTOPEDIDO } = req.body;
+   
+            const response = await axios.post(`${url}/api/service-layer/pedido-compra/por-codigo/produtos-avulso.xsjs?codProdAvulso=${IDDETALHEPRODUTOPEDIDO}`)
+
+            return res.status(200).json(response.data);
+        } catch (error) {
+            console.error("Erro no ServiceLayerControllers.postMigrarProdutoAvulso:", error);
+            return res.status(400).json({ error: error.message });
+        }
+    }
 
     async postDepositoIntegrarNoSAP(req, res) {
         
@@ -90,6 +103,55 @@ class ServiceLayerControllers {
             return res.status(200).json(response.data);
         } catch (error) {
             console.error("Erro no ServiceLayerControllers.postIntegrarPagamentoPixSAP:", error);
+            return res.status(400).json({ error: error.message });
+        }
+    }
+
+    async postIntegrarDespesaSAP(req, res) {
+        try {
+          
+            let { IDDESPESASLOJA, IDFUNCIONARIO } = req.body;
+   
+            const response = await axios.post(`${url}/api/service-layer/despesa/jobs/despesas-integracao.xsjs`, [{
+                IDDESPESASLOJA,
+                IDFUNCIONARIO,
+            }])
+
+            return res.status(200).json(response.data);
+        } catch (error) {
+            console.error("Erro no ServiceLayerControllers.postIntegrarDespesaSAP:", error);
+            return res.status(400).json({ error: error.message });
+        }
+    }
+    
+    async postMigrarProdutoSAP(req, res) {
+        try {
+          
+            let { IDRESUMOPEDIDO } = req.body;
+   
+            const response = await axios.post(`${url}/api/service-layer/pedido-compra/por-codigo/incluir-atualizar/produtos.xsjs`, [{
+                IDRESUMOPEDIDO
+            }])
+
+            return res.status(200).json(response.data);
+        } catch (error) {
+            console.error("Erro no ServiceLayerControllers.postMigrarProdutoSAP:", error);
+            return res.status(400).json({ error: error.message });
+        }
+    }
+   
+    async postMigrarPedidoSAP(req, res) {
+        try {
+          
+            let { IDRESUMOPEDIDO } = req.body;
+   
+            const response = await axios.post(`${url}/api/service-layer/pedido-compra/por-codigo/pedido-compra.xsjs`, [{
+                IDRESUMOPEDIDO
+            }])
+
+            return res.status(200).json(response.data);
+        } catch (error) {
+            console.error("Erro no ServiceLayerControllers.postMigrarPedidoSAP:", error);
             return res.status(400).json({ error: error.message });
         }
     }
