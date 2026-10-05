@@ -2,9 +2,7 @@ import axios from "axios";
 import 'dotenv/config';
 const url = process.env.API_URL;
 
-
 class PromocaoControllers  {
-
 
    async getListaMecanicaAtivas(req, res) {
         let { idResumoPromocao, dataPesquisaInicio, dataPesquisaFim, page, pageSize } = req.query; 
@@ -385,12 +383,15 @@ class PromocaoControllers  {
             DSPROMOCAOMARKETING,
             IDEMPRESA,
             STATIVO,
+            STESTRUTURA,
+            STPRODUTO,
+            STESTRUTURAPRODUTO,
             STEMPRESAPROMO,
             STDETPROMOORIGEM,
             STDETPROMODESTINO,
             IDSUBGRUPOEMDESTINO,
             IDSUBGRUPOEMORIGEM,
-
+            NUTIPOPROMOCAO
     
         } = req.body;
 
@@ -416,11 +417,15 @@ class PromocaoControllers  {
                 DSPROMOCAOMARKETING,
                 IDEMPRESA,
                 STATIVO,
+                STESTRUTURA,
+                STPRODUTO,
+                STESTRUTURAPRODUTO,
                 STEMPRESAPROMO,
                 STDETPROMOORIGEM,
                 STDETPROMODESTINO,
                 IDSUBGRUPOEMDESTINO,
                 IDSUBGRUPOEMORIGEM,
+                NUTIPOPROMOCAO
             }]);
             
             return res.status(200).json({
@@ -457,7 +462,8 @@ class PromocaoControllers  {
             IDEMPRESA,
             IDPRODUTO,
             detalhesDestino,
-            detalhesOrigem
+            detalhesOrigem,
+            NUTIPOPROMOCAO
         } = req.body;
 
         if(!IDRESUMOPROMOCAOMARKETING) {
@@ -489,7 +495,8 @@ class PromocaoControllers  {
                 IDEMPRESA,
                 IDPRODUTO,
                 detalhesDestino,
-                detalhesOrigem
+                detalhesOrigem,
+                NUTIPOPROMOCAO
             });
             
             return res.status(200).json({
@@ -551,7 +558,7 @@ class PromocaoControllers  {
             IDEMPRESA,
             STATIVO,
             STESTRUTURA,
-            ESTRPRODUTO,
+            STPRODUTO,
             STESTRUTURAPRODUTO,
             STEMPRESAPROMO,
             STDETPROMOORIGEM,
@@ -567,6 +574,7 @@ class PromocaoControllers  {
             IDPRODUTO,
             IDPRODUTODESTINO,
             IDPRODUTOORIGEM,
+            NUTIPOPROMOCAO
         } = req.body;
 
         if(!IDSUBGRUPOEMDESTINO || !IDSUBGRUPOEMORIGEM) {
@@ -590,7 +598,7 @@ class PromocaoControllers  {
                 IDEMPRESA,
                 STATIVO,
                 STESTRUTURA,
-                ESTRPRODUTO,
+                STPRODUTO,
                 STESTRUTURAPRODUTO,
                 STEMPRESAPROMO,
                 STDETPROMOORIGEM,
@@ -606,6 +614,7 @@ class PromocaoControllers  {
                 IDPRODUTO,
                 IDPRODUTODESTINO,
                 IDPRODUTOORIGEM,
+                NUTIPOPROMOCAO
             }]);
             
             return res.status(200).json({
@@ -641,7 +650,8 @@ class PromocaoControllers  {
             IDEMPRESA,
             IDPRODUTO,
             detalhesDestino,
-            detalhesOrigem
+            detalhesOrigem,
+            NUTIPOPROMOCAO
         } = req.body;
 
         // if(!IDSUBGRUPOEMDESTINO || !IDSUBGRUPOEMORIGEM) {
@@ -672,7 +682,8 @@ class PromocaoControllers  {
                 IDEMPRESA,
                 IDPRODUTO,
                 detalhesDestino,
-                detalhesOrigem
+                detalhesOrigem,
+                NUTIPOPROMOCAO
             });
             
             return res.status(200).json({
