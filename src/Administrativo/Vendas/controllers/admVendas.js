@@ -505,7 +505,7 @@ class AdmVendasControllers {
 
     }
 
-    
+
     async getListaVendaCliente(req, res) {
         let { nnf, serie, idEmpresa, idVenda, idSubGrupoEmpresarial, cpfOUidVenda, dataPesquisaInicio, dataPesquisaFim, page, pageSize } = req.query;
         nnf = nnf ? nnf : '';
@@ -521,7 +521,7 @@ class AdmVendasControllers {
 
         try {
 
-             const apiUrl = `${url}/api/venda/lista-venda-cliente.xsjs?id=${idVenda}&dtInicio=${dataPesquisaInicio}&dtFim=${dataPesquisaFim}&idSubgrupoEmpresarial=${idSubGrupoEmpresarial}&idEmpresa=${idEmpresa}&cpfouIdVenda=${cpfOUidVenda}&nnf=${nnf}&serie=${serie}&pageSize=${pageSize}&page=${page}`;
+            const apiUrl = `${url}/api/venda/lista-venda-cliente.xsjs?id=${idVenda}&dtInicio=${dataPesquisaInicio}&dtFim=${dataPesquisaFim}&idSubgrupoEmpresarial=${idSubGrupoEmpresarial}&idEmpresa=${idEmpresa}&cpfouIdVenda=${cpfOUidVenda}&nnf=${nnf}&serie=${serie}&pageSize=${pageSize}&page=${page}`;
             const response = await axios.get(apiUrl)
 
             return res.json(response.data);
@@ -531,6 +531,26 @@ class AdmVendasControllers {
         }
 
     }
+
+    async getListaProdutosVenda(req, res) {
+        let { idProduto, page, pageSize } = req.query;
+        idProduto = idProduto ? idProduto : '';
+        page = page ? page : '';
+        pageSize = pageSize ? pageSize : '';
+
+        try {
+
+            const apiUrl = `${url}/api/resumo-voucher/lista-produtos-venda.xsjs?id=${idProduto}&pageSize=${pageSize}&page=${page}`;
+            const response = await axios.get(apiUrl)
+
+            return res.json(response.data);
+        } catch (error) {
+            console.error("Error no AdmVendasControllers.getListaProdutosVenda:", error);
+            throw error;
+        }
+
+    }
+
 
     async putAlterarVendasPagamento(req, res) {
         try {

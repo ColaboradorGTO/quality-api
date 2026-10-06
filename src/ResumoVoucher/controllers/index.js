@@ -347,7 +347,7 @@ class ResumoVoucherControllers {
                 IDGRUPOEMPRESARIAL: value.IDGRUPOEMPRESARIAL,
                 IDVOUCHER: value.IDVOUCHER
             });
-            
+
             return res.status(200).json(response);
         } catch (error) {
             console.error("Erro no ResumoVoucherControllers.postAuthFuncionarioUpdateVoucher:", error);
@@ -409,18 +409,15 @@ class ResumoVoucherControllers {
                 IDGRUPOEMPRESARIAL: value.IDGRUPOEMPRESARIAL,
                 IDEMPRESAORIGEM: value.IDEMPRESAORIGEM,
                 IDCAIXAORIGEM: value.IDCAIXAORIGEM,
-                IDNFEDEVOLUCAO: value.IDNFEDEVOLUCAO,
                 IDUSRINVOUCHER: value.IDUSRINVOUCHER,
                 IDVENDEDOR: value.IDVENDEDOR,
                 IDCLIENTE: value.IDCLIENTE,
                 NUCPF: value.NUCPF,
-                VRVOUCHER: value.VRVOUCHER,
                 IDRESUMOVENDAWEB: value.IDRESUMOVENDAWEB,
                 STTIPOTROCA: value.STTIPOTROCA,
                 MOTIVOTROCA: value.MOTIVOTROCA,
                 IDUSRLIBERACAOCRIACAO: value.IDUSRLIBERACAOCRIACAO,
-                detVoucher: value.detVoucher,
-                produtosVoucher: value.produtosVoucher
+                DETALHEVOUCHER: value.DETALHEVOUCHER,
 
             });
 
