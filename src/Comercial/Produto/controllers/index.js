@@ -126,6 +126,20 @@ class ComercialProdutoControllers {
     }
   }
 
+  async getListaProdutoSap(req, res) {
+    let { idEmpresa } = req.query;
+
+    try {
+      const apiUrl = `${url}/api/produto-sap/grupo.xsjs`;
+      const response = await axios.get(apiUrl)
+
+      return res.json(response.data); // Retorna
+    } catch (error) {
+      console.error("Unable to connect to the database:", error);
+      throw error;
+    }
+  }
+
   async getListaFornecedorProduto(req, res) {
     let { idMarca, page, pageSize } = req.query;
 

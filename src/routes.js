@@ -725,22 +725,25 @@ routes.post('/auth-funcionario-print-voucher', ResumoVoucherControllers.postAuth
 routes.post('/auth-autorizar-excecao-venda', ResumoVoucherControllers.postAuthAutorizarExecaoVenda)
 
 // Comercial
-routes.get('/listaProdutoSap', EstoqueControllersComercial.getListaProdutoSap)
+
 routes.get('/listaEmpresaComercial', ComercialControllers.getListaEmpresaComercial)
 routes.get('/listaVendasPorProduto', ComercialProdutoControllers.getListaVendasEstruturaProdutos)
 routes.get('/venda-marca-periodo-comercial', ComercialControllers.getListaVendasMarcaPorPeriodoComercial)
 routes.get('/vendas-estoque-grupo-subGrupo', ComercialControllers.getListaVendasEstoqueGrupoSubGrupoComercial)
 routes.get('/produtosPrecosEstoquesLojas', EstoqueControllersComercial.getListaProdutosEstoquePrecoLoja)
-routes.get('/vendasEstoqueProduto', EstoqueControllersComercial.getListaVendasPosicionamentoEstoquePeriodos)
 routes.get('/funcionario-relatorio', ComercialControllers.getListaColaboradorRelatorio)
 routes.get('/custoPorLoja', ComercialControllers.getListaVendasCustoLojas)
-routes.get('/vendasPosicionamentoEstoque', EstoqueControllersComercial.getListaVendasPosicionamentoEstoque)
 routes.get('/colaboradorProdutosVendidos', ComercialProdutoControllers.getListaColaboradorProdutosVendidos)
+
+routes.get('/vendasEstoqueProduto', EstoqueControllersComercial.getListaVendasPosicionamentoEstoquePeriodos)
+routes.get('/vendasPosicionamentoEstoque', EstoqueControllersComercial.getListaVendasPosicionamentoEstoque)
+
 routes.get('/listaMetaVendas', MetasControllers.getListaMetasGrupo)
-routes.get('/listaPremiacoes', PremiacaoControllers.getListaPremiacoesPeriodo)
-routes.get('/lista-premios-gerente', PremiacaoControllers.getListaPremiosGerente)
 routes.get('/meta-vendas', MetasControllers.getListaMetasVendas)
 routes.get('/meta-vendas-resumida', MetasControllers.getListaMetasVendasResumida)
+
+routes.get('/listaPremiacoes', PremiacaoControllers.getListaPremiacoesPeriodo)
+routes.get('/lista-premios-gerente', PremiacaoControllers.getListaPremiosGerente)
 routes.get('/lista-premiacao-cadastrada', PremiacaoControllers.getListaPremiacaoCadastrada)
 
 routes.post('/cadastra-premiacoes', PremiacaoControllers.postCadastrarPremiacoes)
@@ -748,6 +751,7 @@ routes.post('/cadastra-premiacoes', PremiacaoControllers.postCadastrarPremiacoes
 // routes.get('/listaGrupoProduto', ComercialControllers.getListaGrupoProduto)
 // routes.get('/listaSubGrupoProduto', ComercialControllers.getListaSubGrupoProduto)
 
+routes.get('/listaProdutoSap', ComercialProdutoControllers.getListaProdutoSap)
 routes.get('/lista-marca-produto', ComercialProdutoControllers.getListaMarcaProduto)
 routes.get('/lista-fornecedor-produto', ComercialProdutoControllers.getListaFornecedorProduto)
 routes.get('/grupo-produto', ComercialProdutoControllers.getListaGrupoProduto)
