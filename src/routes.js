@@ -263,6 +263,7 @@ routes.get('/pesquisa-movimento-caixa', ADMCaixasControllers.getPesquisaMoviment
 routes.get('/recebimento-resumo', AdmVendasControllers.getRetornoListaPagamentoVenda)
 
 routes.get('/lista-venda-cliente', AdmVendasControllers.getListaVendaCliente);
+routes.get('/lista-produtos-venda', AdmVendasControllers.getListaProdutosVenda);
 routes.get('/lista-venda', AdmVendasControllers.getListaVendasById)
 routes.get('/venda-ativa', AdmVendasControllers.getListaVendaAtiva);
 routes.get('/venda-vendedor-adm', AdmVendasControllers.getVendaVendedorAction);
