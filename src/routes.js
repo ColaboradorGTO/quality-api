@@ -741,6 +741,10 @@ routes.get('/vendasPosicionamentoEstoque', EstoqueControllersComercial.getListaV
 routes.get('/listaMetaVendas', MetasControllers.getListaMetasGrupo)
 routes.get('/meta-vendas', MetasControllers.getListaMetasVendas)
 routes.get('/meta-vendas-resumida', MetasControllers.getListaMetasVendasResumida)
+routes.get('/meta-vendas-estrutura', MetasControllers.getListaMetasVendasEstrutura)
+
+routes.put('/delete-meta/:id', MetasControllers.putDeleteMeta)
+routes.post('/cadastrar-metas-lojas', MetasControllers.postCadastrarMetasLoja)
 
 routes.get('/listaPremiacoes', PremiacaoControllers.getListaPremiacoesPeriodo)
 routes.get('/lista-premios-gerente', PremiacaoControllers.getListaPremiosGerente)
