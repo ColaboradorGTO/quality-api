@@ -23,7 +23,7 @@ export class DespesasClient {
 
     ) {
 
-        const response = await this.api.put(`${url}/api/despesa-loja/editar-despesa.xsjs`, {
+        const response = await this.api.put(`${url}/api/despesa-loja/editar-despesa.xsjs`, [{
             IDCATEGORIARECEITADESPESA,
             VRDESPESA,
             DSPAGOA,
@@ -34,7 +34,7 @@ export class DespesasClient {
             DSMOTIVOCANCELAMENTO,
             IDDESPESASLOJA
 
-        });
+        }]);
         return response.data;
     }
 
