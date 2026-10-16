@@ -474,7 +474,7 @@ routes.get('/desconto-motivo-vendas', DescontoControllers.getListaDescontoMotivo
 
 //  Adiantamentos 
 routes.get('/adiantamento-salarial', AdiantamentosControllers.getListaAdiantamentoSalarialFinanceiro)
-routes.get('/listaCaixasMovimentoFinanceiro', AdiantamentosControllers.getListaCaixasMovmentoFinanceiro)
+routes.get('/listaCaixasMovimentoFinanceiro', AdiantamentosControllers.getListaCaixasMovmentoFinanceiroAdiantamento)
 routes.get('/lista-adiantamento-departamento', AdiantamentosControllers.getListaAdiantamentoDepartamentos)
 routes.get('/download-anexo-adiantamento', AdiantamentosControllers.getDownloadAnexoAdiantamento)
 routes.get('/pagamento-adiantamento', AdiantamentosControllers.getListaPagamentoAdiantamento)
