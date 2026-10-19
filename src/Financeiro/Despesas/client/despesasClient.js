@@ -19,6 +19,7 @@ export class DespesasClient {
         NUNOTAFISCAL,
         IDUSRCACELAMENTO,
         DSMOTIVOCANCELAMENTO,
+        DTDESPESA,
         IDDESPESASLOJA
 
     ) {
@@ -32,6 +33,7 @@ export class DespesasClient {
             NUNOTAFISCAL,
             IDUSRCACELAMENTO,
             DSMOTIVOCANCELAMENTO,
+            DTDESPESA,
             IDDESPESASLOJA
 
         }]);
