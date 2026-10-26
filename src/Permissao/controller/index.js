@@ -185,7 +185,8 @@ class PermissaoControllers {
                 value.N1,
                 value.IDMENU,
                 value.IDMENUFILHO,
-                String(value.IDMODULOPROMOCAO)
+                String(value.IDMODULOPROMOCAO),
+                String(value.IDMODULOPROVISAOFINANCEIRA)
             );
 
             return res.status(200).json(response);
