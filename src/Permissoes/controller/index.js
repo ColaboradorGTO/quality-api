@@ -12,6 +12,7 @@ const url = process.env.API_URL;
 const permissaoClient = new PermissaoClient(url);
 const permissaoService = new PermissaoService(permissaoClient);
 
+// const url = 'http://164.152.245.77:8000/quality/concentrador_node';
 class PermissaoControllers {
 
     async getMenuPai(req, res) {
@@ -52,7 +53,9 @@ class PermissaoControllers {
                 abortEarly: false,
                 stripUnknown: true
             });
-
+            console.log("IDMENU:", value.IDMENU);
+            console.log("IDMENUFILHO:", value.IDMENUFILHO);
+            console.log(value);
             if (error) {
                 return res.status(400).json({
                     message: 'Dados inválidos',
@@ -102,6 +105,7 @@ class PermissaoControllers {
             );
 
             return res.status(200).json(response);
+
         } catch (error) {
             console.log('Erro no PermissaoControllers.putPerfilUsuarioMenu:', error);
             return res.status(500).json({ message: 'Erro no PermissaoControllers.putPerfilUsuarioMenu' });
@@ -153,7 +157,7 @@ class PermissaoControllers {
                     }))
                 });
             }
-
+           
             const response = await permissaoService.createPerfilUsuarioMenu(
 
                 value.IDUSUARIO,
@@ -228,7 +232,6 @@ class PermissaoControllers {
 
         }
     }
-
 
     async putAtualizarMenuFilho(req, res) {
         try {

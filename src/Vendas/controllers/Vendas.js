@@ -1,8 +1,6 @@
-import { dataFormatada } from "../../utils/dataFormatada.js";
 import axios from 'axios';
 import 'dotenv/config';
 const url = process.env.API_URL;
-
 class VendasControllers {
 
     async getListaVendas(req, res) {
@@ -12,7 +10,7 @@ class VendasControllers {
     
             return res.json(response.data); // Retorna
         } catch (error) {
-            console.error("Unable to connect to the database:", error);
+            console.error("Error no VendasControllers.getListaVendas:", error);
             throw error;
         }
     }
@@ -25,7 +23,7 @@ class VendasControllers {
     
             return res.json(response.data); // Retorna
         } catch (error) {
-            console.error("Unable to connect to the database:", error);
+            console.error("Error no VendasControllers.getListaVendaId:", error);
             throw error;
         }
         
@@ -39,8 +37,8 @@ class VendasControllers {
             idVenda = idVenda ? idVenda : '';
             idSubGrupoEmpresarial = idSubGrupoEmpresarial ? idSubGrupoEmpresarial : '';
             cpfOUidVenda = cpfOUidVenda ? cpfOUidVenda : '';
-            dataPesquisaInicio = dataFormatada(dataPesquisaInicio) ? dataPesquisaInicio : '';
-            dataPesquisaFim = dataFormatada(dataPesquisaFim) ? dataPesquisaFim : '';
+            dataPesquisaInicio = dataPesquisaInicio ? dataPesquisaInicio : '';
+            dataPesquisaFim = dataPesquisaFim ? dataPesquisaFim : '';
             page = page ? page : '';
             pageSize = pageSize ? pageSize : '';
         try {
@@ -50,7 +48,7 @@ class VendasControllers {
         
             return res.json(response.data); // Retorna
         } catch (error) {
-            console.error("Unable to connect to the database:", error);
+            console.error("Error no VendasControllers.getListaVendaClienteGerencia:", error);
             throw error;
         }
         
@@ -67,7 +65,7 @@ class VendasControllers {
     
             return res.json(response.data); // Retorna
         } catch (error) {
-            console.error("Unable to connect to the database:", error);
+            console.error("Error no VendasControllers.getListaDetalheVendaCliente:", error);
             throw error;
         }
         
@@ -135,13 +133,12 @@ class VendasControllers {
         idEmpresa = idEmpresa ? idEmpresa : '';
         stCancelado = stCancelado ? stCancelado : '';
         stContigencia = stContigencia ? stContigencia : '';
-        dataPesquisaInicio = dataFormatada(dataPesquisaInicio) ? dataPesquisaInicio : '';
-        dataPesquisaFim = dataFormatada(dataPesquisaFim) ? dataPesquisaFim : '';
+        dataPesquisaInicio = dataPesquisaInicio ? dataPesquisaInicio : '';
+        dataPesquisaFim = dataPesquisaFim ? dataPesquisaFim : '';
         page = page ? page : '';
         pageSize = pageSize ? pageSize : '';
         try {
-            const apiUrl = `${url}/api/venda/venda-xml.xsjs?id=${idVenda}&idGrupoEmpresarial=${idMarca}&idEmpresa=${idEmpresa}&stCancelado=${stCancelado}&stContingencia=${stContigencia}&dataInicio=${dataPesquisaInicio}&dataFim=${dataPesquisaFim}`
-
+            const apiUrl = `${url}/api/venda/venda-xml.xsjs?id=${idVenda}&idGrupoEmpresarial=${idMarca}&idEmpresa=${idEmpresa}&stContingencia=${stContigencia}&stCancelado=${stCancelado}&dataInicio=${dataPesquisaInicio}&dataFim=${dataPesquisaFim}`
             const response = await axios.get(apiUrl)
       
             return res.json(response.data); 
@@ -166,13 +163,35 @@ class VendasControllers {
                 
         try {
 
-            const apiUrl = `${url}/api/venda/vendas-prazo-excedido-troca.xsjs?idEmpresa=${idEmpresa}&cpfouIdVenda=${cpfOUidVenda}&nnf=${nnf}&serie=${serie}&idGrupoEmpresarial=${idSubGrupoEmpresarial}&dtInicio=${dataPesquisaInicio}&dtFim=${dataPesquisaFim}&pageSize=${pageSize}&page=${page}`;
+            
+            const apiUrl = `${url}/api/venda/vendas-prazo-excedido-troca.xsjs?id=${idVenda}&idEmpresa=${idEmpresa}&cpfouIdVenda=${cpfOUidVenda}&nnf=${nnf}&serie=${serie}&idGrupoEmpresarial=${idSubGrupoEmpresarial}&dtInicio=${dataPesquisaInicio}&dtFim=${dataPesquisaFim}&pageSize=${pageSize}&page=${page}`;
            
             const response = await axios.get(apiUrl)
 
             return res.json(response.data); 
         } catch (error) {
-            console.error("Error no AdmVendasControllers.getListaVendasPrazoExcedido:", error);
+            console.error("Error no VendasControllers.getListaVendasPrazoExcedido:", error);
+            throw error;
+        }
+    }
+
+    async getListaVendasGnre(req, res) {
+        let {docEntry, chave, page, pageSize } = req.query;
+        docEntry = docEntry ? docEntry : '';
+        chave = chave ? chave : '';
+        page = page ? page : '';
+        pageSize = pageSize ? pageSize : '';
+                
+        try {
+
+            
+            const apiUrl = `${url}/api/venda/lista-venda-gnre.xsjs?docEntry=${docEntry}&pageSize=${pageSize}&page=${page}`;
+          
+            const response = await axios.get(apiUrl)
+
+            return res.json(response.data); 
+        } catch (error) {
+            console.error("Error no VendasControllers.getListaVendasGnre:", error);
             throw error;
         }
     }
@@ -191,6 +210,7 @@ class VendasControllers {
                 VRPRODUTO,
                 VRTOTALLIQUIDO
             } = req.body; 
+            
             const response = await axios.post(`${url}/api/venda/vendas-prazo-excedido-troca.xsjs`, [{
                 DIASAPOSCOMPRAR,
                 IDPRODUTO,
@@ -205,7 +225,7 @@ class VendasControllers {
             }]);
             return res.json(response.data);
         } catch (error) {
-            console.error("Unable to connect to the database:", error);
+            console.error("Error no VendasControllers.postAlterarVendasPrazoExcedido:", error);
             return res.status(500).json({ error: error.message });
         }
     }

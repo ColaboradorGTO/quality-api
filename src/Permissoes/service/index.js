@@ -9,7 +9,7 @@ export class PermissaoService {
     ) {
         if (!ID)
             throw new Error("ID is required, services");
-
+    
         const result = await this.client.atualizarFuncionarioDepartamento(
             ID,
             DEPARTAMENTO,
@@ -48,7 +48,7 @@ export class PermissaoService {
         IDMENU,
         IDMENUFILHO,
         IDMODULOPROMOCAO,
-        IDMODULOPROVISAOFINANCEIRA,
+        IDMODULOPROVISAOFINANCEIRA
     ) {
 
         if (!IDUSUARIO)
@@ -88,8 +88,9 @@ export class PermissaoService {
             IDMENU,
             IDMENUFILHO,
             IDMODULOPROMOCAO,
-            IDMODULOPROVISAOFINANCEIRA,
+            IDMODULOPROVISAOFINANCEIRA
         )
+
         return result;
     }
 
@@ -174,12 +175,11 @@ export class PermissaoService {
             IDMENU,
             IDMENUFILHO
         )
-        
+     
 
 
         return result;
     }
-
 
     async createMenuFilho(
         DSNOME,
