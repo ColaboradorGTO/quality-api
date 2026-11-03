@@ -1,9 +1,9 @@
-import axios from "axios";
-import maloteSchema from "../schema/index.js";
-import criarMaloteLojaSchema from "../schema/criarMaloteLojaSchema.js";
 import { MaloteClient } from "../client/index.js";
 import { MaloteService } from "../services/index.js";
+import maloteSchema from "../schema/index.js";
 import { dataFormatada } from "../../../utils/dataFormatada.js";
+import axios from "axios";
+import criarMaloteLojaSchema from "../schema/criarMaloteLojaSchema.js";
 
 const maloteClient = new MaloteClient(process.env.API_URL);
 const maloteService = new MaloteService(maloteClient);
@@ -72,11 +72,9 @@ export class MaloteFinanceiroController {
 
     try {
 
-
-                
       const apiUrl = `${url}/api/financeiro/malotes-por-loja.xsjs?idGrupoEmpresarial=${idMarca}&idEmpresa=${idEmpresa}&statusMalote=${statusMalote}&idMalote=${idMalote}&idPendenciaMalote=${pendenciaMalote}&dataPesquisaInicio=${dataPesquisaInicio}&dataPesquisaFim=${dataPesquisaFim}&dataConferenciaInicio=${dataConferenciaInicio}&dataConferenciaFim=${dataConferenciaFim}&page=${page}&pageSize=${pageSize}`
       const response = await axios.get(apiUrl)
-      
+
       return res.json(response.data);
 
     } catch (error) {

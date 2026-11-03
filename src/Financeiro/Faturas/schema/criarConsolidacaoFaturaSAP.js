@@ -7,6 +7,7 @@ const schemaCriarConsolidacaoFaturaSAP = Joi.object({
             "string.base": "IDS_CONSOLIDACOES  deve ser uma string"
         }),
 
+
     IDFUNCIONARIO: Joi.number().required()
         .messages({
             "any.required": "IDFUNCIONARIO é obrigatório",

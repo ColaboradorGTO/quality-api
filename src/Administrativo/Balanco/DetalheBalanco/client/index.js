@@ -9,7 +9,6 @@ export class DetalheBalancoClient {
             timeout: 80000
        }); 
     }
-
  
     async atualizarDetalheBalancoAvulso(
         IDEMPRESA,

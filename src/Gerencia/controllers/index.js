@@ -1,6 +1,6 @@
 import 'dotenv/config';
 const url = process.env.API_URL;
-
+// const url = 'http://164.152.245.77:8000/quality/concentrador_homologacao';
 import axios from 'axios';
 
 class GerenciaControllers {
@@ -30,7 +30,7 @@ class GerenciaControllers {
             return res.status(500).json({ error: "Erro ao conectar ao banco de dados." });
         }
     } */
-/*     async getListaMalortesPorLoja(req, res) {
+    /* async getListaMalortesPorLoja(req, res) {
         let { idEmpresa, idMalote, statusMalote, pendenciaMalote, dataPesquisaInicio, dataPesquisaFim, page, pageSize } = req.query;
 
         idEmpresa = idEmpresa ? idEmpresa : ''
@@ -101,8 +101,8 @@ class GerenciaControllers {
             return res.status(500).json({ error: "Erro ao conectar ao banco de dados." });
 
         }
-    }
- */
+    } */
+
 
     // async putListaCliente(req, res) {
     //     try {
@@ -137,7 +137,7 @@ class GerenciaControllers {
     // }
 
 
- /*    async putMalotesPorLoja(req, res) {
+/*     async putMalotesPorLoja(req, res) {
         try {
             const dados = Array.isArray(req.body) ? req.body : [req.body];
 
@@ -160,7 +160,7 @@ class GerenciaControllers {
         }
     } */
 
-/*     async postMalotesPorLoja(req, res) {
+  /*   async postMalotesPorLoja(req, res) {
         try {
             const { IDEMPRESA, DATAMOVIMENTOCAIXA } = req.body;
 

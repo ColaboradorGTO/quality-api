@@ -23,7 +23,7 @@ export class DespesasClient {
         IDDESPESASLOJA
 
     ) {
-
+   
         const response = await this.api.put(`${url}/api/despesa-loja/editar-despesa.xsjs`, [{
             IDCATEGORIARECEITADESPESA,
             VRDESPESA,

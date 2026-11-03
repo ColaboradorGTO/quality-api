@@ -14,10 +14,10 @@ class ModulosControllers  {
         try {
             
             const apiUrl = `${url}/api/perfilUsuario/perfilUsuarioMenu.xsjs?idUsuario=${idUsuario}&idPerfil=${Number(idPerfil)}`;
-        
+          
             const response = await axios.get(apiUrl);
-
-            return res.json(response.data); // Retorna
+   
+            return res.json(response.data); 
         } catch (error) {
             console.error("Unable to connect to the database:", error);
             throw error;

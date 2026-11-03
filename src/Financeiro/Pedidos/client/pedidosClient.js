@@ -21,6 +21,4 @@ export class PedidosClient {
 
         return response.data;
     }
-
-
 }

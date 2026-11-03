@@ -14,6 +14,7 @@ const url = process.env.API_URL;
 const faturaClient = new FaturaClient(url);
 const faturaService = new FaturaService(faturaClient);
 
+
 class FaturasControllers {
   async getListaFaturasPixPeriodo(req, res) {
     let { idMarca, dataPesquisaInicio, dataPesquisaFim, idLojaPesquisa, empresaLista, page, pageSize } = req.query;
@@ -93,11 +94,10 @@ class FaturasControllers {
     pageSize = pageSize ? pageSize : '';
 
     try {
-
       const apiUrl = `${url}/api/financeiro/venda-total-fatura-pix-empresa.xsjs?idMarca=${idMarca}&idEmpresa=${idEmpresa}&dataPesquisaInicio=${dataPesquisaInicio}&dataPesquisaFim=${dataPesquisaFim}&dataCompInicio=${dataCompInicio}&dataCompFim=${dataCompFim}&page=${page}&pageSize=${pageSize}`;
       const response = await axios.get(apiUrl);
-      return res.json(response.data);
 
+      return res.json(response.data);
     } catch (error) {
       console.error("Unable to connect to the database:", error);
       throw error;
@@ -148,30 +148,6 @@ class FaturasControllers {
     }
   }
 
-  async getListaVendasPixConsolidadoLojas(req, res) {
-    let { idMarca, pageSize, page, dataPesquisaInicio, dataPesquisaFim, idLoja, listaEmpresas } = req.query;
-
-    if (!isNaN(idMarca)) {
-      idMarca = Number(idMarca);
-      pageSize = pageSize ? pageSize : '';
-      page = page ? page : '';
-      dataPesquisaInicio = dataFormatada(dataPesquisaInicio) ? dataFormatada(dataPesquisaInicio) : '';
-      dataPesquisaFim = dataFormatada(dataPesquisaFim) ? dataFormatada(dataPesquisaFim) : '';
-      idLoja = idLoja ? idLoja : '';
-      listaEmpresas = listaEmpresas ? listaEmpresas : '';
-      try {
-
-        const apiUrl = `${url}/api/financeiro/venda-pix-consolidado-loja.xsjs?pageSize=${pageSize}&page=${page}&idMarca=${idMarca}&dataPesquisaInicio=${dataPesquisaInicio}&dataPesquisaFim=${dataPesquisaFim}&lojas=${idLoja}&empresasList=${listaEmpresas}`
-        const response = await axios.get(apiUrl)
-
-        return res.json(response.data);
-      } catch (error) {
-        console.error("Unable to connect to the database:", error);
-        throw error;
-      }
-    }
-  }
-
   async getPreviaFaturasConsolidadas(req, res) {
     let { idEmpresa, dataPesquisaInicio, dataPesquisaFim, page, pageSize } = req.query;
 
@@ -214,8 +190,8 @@ class FaturasControllers {
     }
 
   }
-
-  async postConsolidacaoFaturaSAP(req, res) {
+ 
+   async postConsolidacaoFaturaSAP(req, res) {
 
     try {
       const { error, value } = schemaCriarConsolidacaoFaturaSAP.validate(req.body, {
@@ -238,7 +214,7 @@ class FaturasControllers {
         value.IDS_CONSOLIDACOES,
         value.IDFUNCIONARIO
       );
-
+      
       return res.status(200).json(response);
     } catch (error) {
       console.log('Erro no FaturasControllers.postConsolidacaoFatura', error);
@@ -270,7 +246,7 @@ class FaturasControllers {
         value.IDEMPRESA,
         value.DTPROCESSAMENTO,
         value.QTDTOTALFATURAS,
-        value.VRTOTALRECEBIDO,
+        value.VRTOTALRECEBIDO,  
         value.IDFUNCIONARIO
       );
 

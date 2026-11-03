@@ -1,19 +1,21 @@
+import 'dotenv/config';
 import axios from "axios";
 import { dataFormatada } from "../../../utils/dataFormatada.js";
-import 'dotenv/config';
-const url = process.env.API_URL;
 import alterarVendaPagamentoSchema from '../schema/alteracaoPagamento.js';
-import { VendasClient } from "../client/index.js";
-import { VendasServices } from "../services/index.js";
-import alterarVendaRecebimentoSchema from "../schema/alterarVendaRecebimento.js";
-import alterarVendaVendedorSchema from "../schema/alterarVendaVendedor.js";
-import atualizarVendaCancelamentoSchema from "../schema/atualizarVendaCancelamento.js";
-import criarAlterarVendasPagamentoSchema from "../schema/criarAlterarVendasPagamento.js";
+import atualizarVendaCancelamentoSchema from '../schema/atualizarVendaCancelamento.js';
+import { VendasServices } from '../services/index.js';
+import { VendasClient } from '../client/index.js';
+import alterarVendaRecebimentoSchema from '../schema/alterarVendaRecebimento.js';
+import alterarVendaVendedorSchema from '../schema/alterarVendaVendedor.js';
+import criarAlterarVendasPagamentoSchema from '../schema/criarAlterarVendasPagamento.js';
+
+const url = process.env.API_URL;
 
 const vendaClient = new VendasClient(url);
 const vendaService = new VendasServices(vendaClient)
 
 class AdmVendasControllers {
+
     async getRecebimentosFormaPagamento(req, res) {
         let { idMarca, idEmpresa, dataPesquisaInicio, dataPesquisaFim, idFuncionario, dsFormaPagamento, dsParcela, page, pageSize } = req.query;
         idEmpresa = idEmpresa ? idEmpresa : '';
@@ -35,7 +37,6 @@ class AdmVendasControllers {
         } catch (error) {
             console.error("Unable to connect to the database:", error);
             return res.status(500).json({ error: error.message });
-
         }
     }
 
@@ -54,14 +55,13 @@ class AdmVendasControllers {
 
             const apiUrl = `${url}/api/administrativo/venda-total-recebido-periodo.xsjs?pageSize=${pageSize}&page=${page}&idEmpresa=${idEmpresa}&dataPesquisaInicio=${dataPesquisaInicio}&dataPesquisaFim=${dataPesquisaFim}&idFunc=${idFuncionario}&dSFormaPag=${dsFormaPagamento}&dSParc=${dsParcela}&idEmpGrupo=${idMarca}`;
             const response = await axios.get(apiUrl)
-
+            
             return res.json(response.data); // Retorna
         } catch (error) {
             console.error("Unable to connect to the database:", error);
             return res.status(500).json({ error: error.message });
         }
     }
-
 
     async getVendaVendedor(req, res) {
         let { idEmpresa, dataPesquisaInicio, dataPesquisaFim } = req.query;
@@ -82,7 +82,6 @@ class AdmVendasControllers {
             }
         }
     }
-
 
     async getVendaAtiva(req, res) {
 
@@ -222,8 +221,9 @@ class AdmVendasControllers {
             const pageSize = 100;
             const offset = (pageNumber - 1) * pageSize;
             datapesq = datapesq ? datapesq : '';
-            statusCancelado = statusCancelado ? statusCancelado : ''; try {
-                const apiUrl = `${url}/api/dashboard/venda/resumo-venda-convenio.xsjs?pagesize=${pageSize}&status=${statusCancelado}&idEmpresa=${idEmpresa}&dataFechamento=${datapesq}`
+            statusCancelado = statusCancelado ? statusCancelado : '';
+            try {
+                const apiUrl = `${url}/api/dashboard/venda/resumo-venda-convenio.xsjs?pagesize=${pageSize}&idEmpresa=${idEmpresa}dataFechamento=${datapesq}&status=${statusCancelado}`
                 const response = await axios.get(apiUrl)
 
                 return res.json(response.data); // Retorna
@@ -240,7 +240,7 @@ class AdmVendasControllers {
         if (!isNaN(idEmpresa)) {
             idEmpresa = Number(idEmpresa) ? Number(idEmpresa) : '';
             pageSize = pageSize ? pageSize : '';
-            dataPesquisa = dataFormatada(dataPesquisa) ? dataPesquisa : '';
+            dataPesquisa = dataPesquisa ? dataPesquisa : '';
 
             try {
                 const apiUrl = `${url}/api/administrativo/resumo-venda.xsjs?idEmpresa=${idEmpresa}&dataPesquisa=${dataPesquisa}`;
@@ -287,6 +287,7 @@ class AdmVendasControllers {
             }
         }
     }
+
 
     async getVendaCanceladaWeb(req, res) {
 
@@ -340,7 +341,6 @@ class AdmVendasControllers {
 
     }
 
-
     async getListaClientesVendas(req, res) {
 
         let { cpfCliente, dataPesquisaInicio, dataPesquisaFim } = req.query;
@@ -359,6 +359,7 @@ class AdmVendasControllers {
             throw error;
         }
     }
+
 
     async getVendaAtivaResumo(req, res) {
 
@@ -402,7 +403,6 @@ class AdmVendasControllers {
             throw error;
         }
     }
-
     async getVendaVendedorAction(req, res) {
         let { idEmpresa, idGrupo, dataPesquisaInicio, dataPesquisaFim, page, pageSize, uf, byId } = req.query;
 
@@ -416,7 +416,7 @@ class AdmVendasControllers {
         uf = uf ? uf : '';
 
         try {
-            const apiUrl = `${url}/api/administrativo/venda-vendedor.xsjs?idGrupo=${idGrupo}&idEmpresa=${idEmpresa}&dataPesquisaInicio=${dataPesquisaInicio}&dataPesquisaFim=${dataPesquisaFim}&uf=${uf}`
+            const apiUrl = `${url}/api/administrativo/venda-vendedor.xsjs?idGrupo=${idGrupo}&idEmpresa=${idEmpresa}&dataPesquisaInicio=${dataPesquisaInicio}&dataPesquisaFim=${dataPesquisaFim}&uf=${uf}&page=${page}&pageSize=${pageSize}&byId=${byId}`
             const response = await axios.get(apiUrl)
 
             return res.json(response.data); // Retorna
@@ -450,7 +450,7 @@ class AdmVendasControllers {
 
             const apiUrl = `${url}/api/administrativo/venda-ativa.xsjs?cpfCliente=${cpfCliente}&ufVenda=${ufVenda}&idMarca=${idGrupo}&idEmpresa=${idEmpresa}&dataFechamento=${dataPesquisaInicio}&dataFechamentoFim=${dataPesquisaFim}&statusContingencia=${statusContingencia}&status=${statusCancelado}&stCanceladoWeb=${statusCanceladoWeb}&stCanceladoPDVEmitida=${stCanceladoPDVEmitida}&stCanceladoApos30Min=${statusCanceladoDepois30Minutos}&stCanceladoPDVEmTela=${stCanceladoPDVEmTela}&page=${page}&pageSize=${pageSize}`;
             const response = await axios.get(apiUrl)
-
+            
 
             return res.json(response.data);
         } catch (error) {
@@ -458,7 +458,6 @@ class AdmVendasControllers {
             throw error;
         }
     }
-
 
     async getListaVendasById(req, res) {
         let { nnf, serie, idVenda, idEmpresa, page, pageSize } = req.query;
@@ -468,6 +467,10 @@ class AdmVendasControllers {
         idEmpresa = idEmpresa ? idEmpresa : '';
         page = page ? page : '';
         pageSize = pageSize ? pageSize : '';
+
+        if (idVenda == '') {
+            return res.status(400).json({ error: "idVenda is required" });
+        }
 
         try {
             const apiUrl = `${url}/api/venda/lista-venda.xsjs?nnf=${nnf}&serie=${serie}&idEmpresa=${idEmpresa}&id=${idVenda}&pageSize=${pageSize}&page=${page}`;
@@ -505,7 +508,6 @@ class AdmVendasControllers {
 
     }
 
-
     async getListaVendaCliente(req, res) {
         let { nnf, serie, idEmpresa, idVenda, idSubGrupoEmpresarial, cpfOUidVenda, dataPesquisaInicio, dataPesquisaFim, page, pageSize } = req.query;
         nnf = nnf ? nnf : '';
@@ -522,6 +524,7 @@ class AdmVendasControllers {
         try {
 
             const apiUrl = `${url}/api/venda/lista-venda-cliente.xsjs?id=${idVenda}&dtInicio=${dataPesquisaInicio}&dtFim=${dataPesquisaFim}&idSubgrupoEmpresarial=${idSubGrupoEmpresarial}&idEmpresa=${idEmpresa}&cpfouIdVenda=${cpfOUidVenda}&nnf=${nnf}&serie=${serie}&pageSize=${pageSize}&page=${page}`;
+            //const apiUrl = `http://164.152.245.77:8000/quality/concentrador_homologacao/api/venda/lista-venda-cliente.xsjs?id=${idVenda}&dtInicio=${dataPesquisaInicio}&dtFim=${dataPesquisaFim}&idSubgrupoEmpresarial=${idSubGrupoEmpresarial}&idEmpresa=${idEmpresa}&cpfouIdVenda=${cpfOUidVenda}&nnf=${nnf}&serie=${serie}&pageSize=${pageSize}&page=${page}`;
             const response = await axios.get(apiUrl)
 
             return res.json(response.data);
@@ -583,7 +586,6 @@ class AdmVendasControllers {
             return res.status(500).json({ error: 'Erro no servidor' });
         }
     }
-
 
     async putAlterarVendaRecebimento(req, res) {
         try {

@@ -39,7 +39,7 @@ class FinanceiroVendasControllers {
       page = page ? page : '';
       pageSize = pageSize ? pageSize : '';
 
-      const apiUrl = `${url}/api/financeiro/venda-digital.xsjs?pageSize=${pageSize}&idEmpresa=${idEmpresa}&dataPesquisaInicio=${dataPesquisaInicio}&dataPesquisaFim=${dataPesquisaFim}&page=${page}`
+      const apiUrl = `${url}/api/financeiro/venda-digital.xsjs?idEmpresa=${idEmpresa}&dataPesquisaInicio=${dataPesquisaInicio}&dataPesquisaFim=${dataPesquisaFim}&page=${page}&pageSize=${pageSize}`
       const response = await axios.get(apiUrl)
       return res.json(response.data);
     } catch (error) {
@@ -411,6 +411,7 @@ class FinanceiroVendasControllers {
       }
     }
   }
+
 
   async getListaVendasMarcaMarckup(req, res) {
     let { idMarca, pageNumber, dataPesquisaInicio, dataPesquisaFim, idLoja, idLojaPesquisa } = req.query;

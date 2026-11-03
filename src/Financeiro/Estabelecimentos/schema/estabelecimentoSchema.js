@@ -6,6 +6,8 @@ const nomeSchema = Joi.object({
             "any.required": "DADO é obrigatório",
             "string.base": "DADO  deve ser uma string"
         }),
+
+
 });
 
 

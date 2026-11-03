@@ -61,7 +61,6 @@ export class DespesasServices {
         return result;
     }
 
-
     async createIntegracaoDespesa(
         IDDESPESASLOJA,
         IDFUNCIONARIO

@@ -5,7 +5,6 @@ import { EmpresaClient } from "../client/index.js";
 import updateEmpresaSchema from "../schema/useUpdateEmpresa.js";
 const url = process.env.API_URL;
 
-
 const atualizarEmpresaClient = new EmpresaClient(url)
 const updateEmpresaService = new EmpresaServices(atualizarEmpresaClient);
 
@@ -19,7 +18,8 @@ class EmpresaControllers {
         pageSize = pageSize ? pageSize : '';
 
         try {
-            const response = await axios.get(`${url}/api/empresa.xsjs?id=${idEmpresa}`)
+             const response = await axios.get(`${url}/api/empresa.xsjs?id=${idEmpresa}`)
+         //  const response = await axios.get(`http://164.152.245.77:8000/quality/concentrador/api/empresa.xsjs?id=${idEmpresa}`)
 
             return res.json(response.data);
         } catch (error) {
@@ -94,8 +94,6 @@ class EmpresaControllers {
                     }))
                 });
             }
-
-
 
             const response = await updateEmpresaService.updateEmpresa({
 

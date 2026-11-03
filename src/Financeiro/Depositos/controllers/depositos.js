@@ -26,11 +26,10 @@ class DepositosControllers {
     dataCompensacaoFim = dataCompensacaoFim ? dataCompensacaoFim : '';
     dataMovimentoFim = dataMovimentoFim ? dataMovimentoFim : '';
 
-
     try {
       const apiUrl = `${url}/api/financeiro/deposito-loja.xsjs?idConta=${idConta}&dataPesquisaInicio=${dataPesquisaInicio}&dataPesquisaFim=${dataPesquisaFim}&dataCompInicio=${dataCompensacaoInicio}&dataCompFim=${dataCompensacaoFim}&dataMovInicio=${dataMovimentoInicio}&dataMovFim=${dataMovimentoFim}&page=${page}&pageSize=${pageSize}`
       const response = await axios.get(apiUrl);
-
+     
       return res.json(response.data);
     } catch (error) {
       console.error("Unable to connect to the database:", error);
@@ -99,6 +98,7 @@ class DepositosControllers {
         stripUnknown: true
       });
 
+      console.log(value, 'VALUE')
 
 
       if (error) {

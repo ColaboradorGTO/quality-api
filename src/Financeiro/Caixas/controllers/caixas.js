@@ -1,14 +1,13 @@
-import 'dotenv/config';
 import axios from "axios";
+import { dataFormatada } from "../../../utils/dataFormatada.js";
+import 'dotenv/config';
+import fechaCaixaZeradoSchema from "../schema/fecharCaixaZeradoSchema.js";
 import { CaixaClient } from "../client/caixaClient.js";
 import { CaixaService } from "../service/caixaService.js";
-import { dataFormatada } from "../../../utils/dataFormatada.js";
-import fechaCaixaZeradoSchema from "../schema/fecharCaixaZeradoSchema.js";
 
 const url = process.env.API_URL;
 const caixaClient = new CaixaClient(url);
 const caixaService = new CaixaService(caixaClient);
-
 
 class CaixasControllers {
   async getListaCaixasMovmentoFinanceiro(req, res) {
@@ -22,6 +21,7 @@ class CaixasControllers {
     page = page ? page : '';
     pageSize = pageSize ? pageSize : '';
     try {
+
       const apiUrl = `${url}/api/financeiro/lista-caixas-movimento.xsjs?idMarca=${idMarca}&dataPesquisaInicio=${dataPesquisaInicio}&dataPesquisaFim=${dataPesquisaFim}&idLoja=${idLoja}&idLojasPesq=${idLojaPesquisa}&page=${page}&pageSize=${pageSize}`
       const response = await axios.get(apiUrl)
 

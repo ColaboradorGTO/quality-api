@@ -34,10 +34,11 @@ class ADMCaixasControllers {
         try {
             const apiUrl = `${url}/api/administrativo/quebra-caixa-loja.xsjs?idEmpresa=${idEmpresa}&dataPesquisa=${dataFechamento}`
             const response = await axios.get(apiUrl)
-            return res.json(response.data); // Retorna
+            return res.json(response.data); 
+            
         } catch (error) {
-            console.error("Unable to connect to the database:", error);
-            throw error;
+            console.error("Erro no ADM Caixa Controllers getListaCaixasMovimento:", error);
+            return res.status(500).json({ message: 'Erro ADMCaixasControllers.getRetornoListaCaixasFechados', error });
         }
     }
 
@@ -101,7 +102,6 @@ class ADMCaixasControllers {
             }
         }
     }
-
 }
 
 export default new ADMCaixasControllers();

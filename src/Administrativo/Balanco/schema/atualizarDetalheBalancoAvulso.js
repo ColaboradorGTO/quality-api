@@ -22,13 +22,36 @@ const updateDetalheBalancoAvulsoSchema = Joi.object({
          'string.base': 'O campo IDPRODUTO deve ser uma string',
          'any.required': 'O campo IDPRODUTO é obrigatório'
       }),
-
+   CODIGODEBARRAS: Joi.string().allow(null, "")
+      .messages({
+         'string.base': 'O campo CODIGODEBARRAS deve ser uma string'
+      }),
+   DSPRODUTO: Joi.string().allow(null, "")
+      .messages({
+         'string.base': 'O campo DSPRODUTO deve ser uma string'
+      }),
    TOTALCONTAGEMGERAL: Joi.number().required()
       .messages({
          'number.base': 'O campo TOTALCONTAGEMGERAL deve ser um número',
          'any.required': 'O campo TOTALCONTAGEMGERAL é obrigatório'
       }),
-
+   PRECOCUSTO: Joi.number().allow(null, "")
+      .messages({
+         'number.base': 'O campo PRECOCUSTO deve ser um número'
+      }),
+   PRECOVENDA: Joi.number().allow(null, "")
+      .messages({
+         'number.base': 'O campo PRECOVENDA deve ser um número'
+      }),
+   STCANCELADO: Joi.string().allow(null, "")
+      .messages({
+         'string.base': 'O campo STCANCELADO deve ser uma string'
+      }),
+   INSBALANCO: Joi.number().allow(null, "")
+      .messages({
+         'number.base': 'O campo INSBALANCO deve ser um número'
+      })
 })
 
 export default updateDetalheBalancoAvulsoSchema;
+

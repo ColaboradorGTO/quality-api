@@ -20,15 +20,16 @@ class EstoqueControllers {
         pageSize = pageSize ? Number(pageSize) : '';
 
         try {
-
+        
             const apiUrl = `${url}/api/administrativo/inventariomovimento.xsjs?idEmpresa=${idEmpresa}&idgrupo=${idGrupo}&idsubgrupo=${idSubGrupo}&idmarca=${idMarca}&idfornecedor=${idFornecedor}&descproduto=${descricaoProduto}&dtinicial=${dataPesquisaInicio}&dtfinal=${dataPesquisaFim}&stativo=${stAtivo}&page=${page}&pageSize=${pageSize}`;
             const response = await axios.get(apiUrl)
             // const response = await getInventarioMovimento(idEmpresa, idGrupo, idSubGrupo, idMarca, idFornecedor, descricaoProduto, stAtivo, dataPesquisaInicio, dataPesquisaFim, page, pageSize);
             return res.json(response.data);
         } catch (error) {
             console.error("Erro no EstoqueControllers.getListaEstoqueAtual:", error);
-            throw error;
+            return res.status(500).json({ message: 'Erro EstoqueControllers.getListaEstoqueAtual', error });
         }
+
     }
 
     async getListaEstoqueUltimaPosicao(req, res) {
@@ -46,14 +47,15 @@ class EstoqueControllers {
         pageSize = pageSize ? Number(pageSize) : '';
 
         try {
-
+            
             const apiUrl = `${url}/api/administrativo/ultima-posicao-estoque.xsjs?&idEmpresa=${idEmpresa}&idgrupo=${idGrupo}&idsubgrupo=${idSubGrupo}&idmarca=${idMarca}&idfornecedor=${idFornecedor}&descproduto=${descricaoProduto}&dtinicial=${dataPesquisaInicio}&stativo=${STAtivo}&page=${page}&pageSize=${pageSize}`;
             const response = await axios.get(apiUrl)
             // const response = await getUltimaPosicaoEstoque(idEmpresa, idGrupo, idSubGrupo, idMarca, idFornecedor, descricaoProduto, STAtivo, dataPesquisaInicio, dataPesquisaFim, page, pageSize);
+
             return res.json(response.data);
         } catch (error) {
-            console.error("Unable to connect to the database:", error);
-            throw error;
+            console.error("Erro no EstoqueControllers.getListaEstoqueUltimaPosicao:", error);
+            return res.status(500).json({ message: 'Erro EstoqueControllers.getListaEstoqueUltimaPosicao', error });
         }
     }
 

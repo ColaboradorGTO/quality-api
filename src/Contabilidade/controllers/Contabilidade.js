@@ -8,8 +8,10 @@ import createVinculoAlvaraEmpresaSchema from "../schema/createVinculoAlvaraEmpre
 import updateArquivosAlvaraSchema from "../schema/updateArquivoAlvara.js";
 import createArquivosAlvaraSchema from "../schema/createArquivoAlvara.js";
 import updateNcmExececaoSchema from "../schema/updateNcmExececaoSchema.js";
+import createNcmExcecaoSchema from "../schema/createNcmExcecaoSchema.js";
 import ncmExcecaoItemSchema from "../schema/createNcmExcecaoSchema.js";
 const url = process.env.API_URL;
+// const url = process.env.API_URL_HML;
 
 
 const contabilidadeClient = new ContabilidadeClient(url)
@@ -413,7 +415,6 @@ class ContabilidadeControllers {
       });
     }
   }
-
 
   async putVinculoAlvarasEmpresas(req, res) {
     try {

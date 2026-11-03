@@ -1,12 +1,12 @@
 import axios from "axios";
 import 'dotenv/config';
-import { dataFormatada } from "../../../utils/dataFormatada.js";
 import { CaixaClient } from "../client/index.js";
 import { caixaPutSchema } from "../schema/caixaPutSchema.js";
 import { empresaDiarioSchema } from "../schema/empresaDiario.js";
 import { caixaSchema } from "../schema/index.js";
 import { todosCaixasSchema } from "../schema/todosCaixas.js";
 import { caixaServices as CaixaServices } from "../services/index.js";
+import { dataFormatada } from "../../../utils/dataFormatada.js";
 
 const url = process.env.API_URL;
 const caixaClient = new CaixaClient(url);
@@ -76,7 +76,7 @@ class CaixaControllers {
                 abortEarly: false,
                 stripUnknown: true
             });
-            //console.log('Dados validados:', value);
+
             if (error) {
                 return res.status(400).json({
                     message: 'Dados inválidos',
@@ -122,7 +122,9 @@ class CaixaControllers {
                 STATUALIZA: value.STATUALIZA,
                 STLIMPA: value.STLIMPA
             });
+
             return res.status(200).json(response);
+
         } catch (error) {
             console.error("Erro no CaixaControllers.postCaixaLojas", error);
             return res.status(500).json({ error: "Erro no servidor" });
@@ -130,6 +132,7 @@ class CaixaControllers {
     }
 
     async putCaixaLoja(req, res) {
+
         try {
             const { error, value } = caixaPutSchema.validate(req.body, {
                 abortEarly: false,
@@ -161,6 +164,7 @@ class CaixaControllers {
             });
 
             return res.status(200).json(response);
+
         } catch (error) {
             console.error("Erro no CaixaControllers.putCaixaLoja", error);
             return res.status(500).json({ error: "Erro no servidor" });
@@ -168,6 +172,7 @@ class CaixaControllers {
     }
 
     async putAtualizaEmpresaDiario(req, res) {
+
         try {
             const { error, value } = empresaDiarioSchema.validate(req.body, {
                 abortEarly: false,
@@ -193,6 +198,7 @@ class CaixaControllers {
             });
 
             return res.status(200).json(response);
+
         } catch (error) {
             console.error("Erro no CaixaControllers.putAtualizaEmpresaDiario", error);
             return res.status(500).json({ error: "Erro no servidor" });
@@ -200,6 +206,7 @@ class CaixaControllers {
     }
 
     async putAtualizarTodosCaixas(req, res) {
+
         try {
             const { error, value } = todosCaixasSchema.validate(req.body, {
                 abortEarly: false,
@@ -222,12 +229,13 @@ class CaixaControllers {
             });
 
             return res.status(200).json(response);
+
         } catch (error) {
             console.error("Erro no CaixaControllers.putAtualizarTodosCaixas", error);
             return res.status(500).json({ error: "Erro no servidor" });
         }
     }
-}
 
+}
 
 export default new CaixaControllers();

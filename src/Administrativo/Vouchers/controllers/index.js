@@ -46,7 +46,6 @@ class AdmVouchersControllers {
             console.error("Erro no AdmVouchersControllers.putEditarVoucher:", error);
             return res.status(500).json({ message: 'Erro AdmVouchersControllers.putEditarVoucher', error });
         }
-
     }
 
 }

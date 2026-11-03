@@ -347,7 +347,7 @@ class ResumoVoucherControllers {
                 IDGRUPOEMPRESARIAL: value.IDGRUPOEMPRESARIAL,
                 IDVOUCHER: value.IDVOUCHER
             });
-
+            
             return res.status(200).json(response);
         } catch (error) {
             console.error("Erro no ResumoVoucherControllers.postAuthFuncionarioUpdateVoucher:", error);
@@ -418,6 +418,7 @@ class ResumoVoucherControllers {
                 MOTIVOTROCA: value.MOTIVOTROCA,
                 IDUSRLIBERACAOCRIACAO: value.IDUSRLIBERACAOCRIACAO,
                 DETALHEVOUCHER: value.DETALHEVOUCHER,
+               
 
             });
 

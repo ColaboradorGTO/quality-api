@@ -1,9 +1,60 @@
-
+import { Make, Tools, docZip } from 'node-sped-nfe';
 import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
+import os from 'os';
+import https from 'https';
 import 'dotenv/config';
-const url = process.env.API_URL;
+const url = process.env.API_URL
+
+// IMPORTANTE: Desabilitar rejeição de certificado NO INÍCIO
+// This is for internal SEFAZ calls que possuem certificado auto-assinado
+// Suprimir aviso de NODE_TLS_REJECT_UNAUTHORIZED interceptando stderr
+const originalStderr = process.stderr.write;
+process.stderr.write = function(chunk, encoding, callback) {
+  const message = chunk.toString();
+  if (message.includes('NODE_TLS_REJECT_UNAUTHORIZED')) {
+    return callback ? callback() : true;
+  }
+  return originalStderr.call(process.stderr, chunk, encoding, callback);
+};
+
+process.on('warning', (warning) => {
+  if (warning.code === 'NODE_TLS_REJECT_UNAUTHORIZED') {
+    return;
+  }
+  console.warn(warning);
+});
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+// Criar HTTPS Agent global que desabilita verificação de certificado
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+  checkServerIdentity: () => undefined // Ignora validação de hostname
+});
+
+// Aplicar ao axios para HTTPS apenas
+axios.defaults.httpsAgent = httpsAgent;
+
+// Detectar SO e retornar extensão correta
+const getToolPath = (basePath, executable) => {
+  const isWindows = os.platform() === 'win32';
+  
+  if (!isWindows) {
+    // Em Linux, tentar usar o executável do sistema primeiro
+    try {
+      const systemPath = `/usr/bin/${executable}`;
+      if (fs.existsSync(systemPath)) {
+        return systemPath;
+      }
+    } catch (e) {}
+  }
+  
+  // Caso contrário, usar o caminho local
+  const ext = isWindows ? '.exe' : '';
+  return path.resolve(`${basePath}${executable}${ext}`);
+};
 
 export async function getCertOptions(senha, fallbackPfxPath = './GTO COMERCIO 2026-2027.pfx') {
   // -----------------------------
@@ -50,15 +101,15 @@ export async function getCertOptions(senha, fallbackPfxPath = './GTO COMERCIO 20
   // -----------------------------
   // 4) PEM POR CAMINHO
   // -----------------------------
-  if (process.env.CERT_PEM_CERT_PATH && process.env.CERT_PEM_KEY_PATH) {
-    try {
-      const cert = fs.readFileSync(process.env.CERT_PEM_CERT_PATH);
-      const key = fs.readFileSync(process.env.CERT_PEM_KEY_PATH);
-      return { cert, key };
-    } catch (e) {
-      console.error("ERRO ao ler caminhos PEM:", e.message);
-    }
-  }
+  // if (process.env.CERT_PEM_CERT_PATH && process.env.CERT_PEM_KEY_PATH) {
+  //   try {
+  //     const cert = fs.readFileSync(process.env.CERT_PEM_CERT_PATH);
+  //     const key = fs.readFileSync(process.env.CERT_PEM_KEY_PATH);
+  //     return { cert, key };
+  //   } catch (e) {
+  //     console.error("ERRO ao ler caminhos PEM:", e.message);
+  //   }
+  // }
 
   // -----------------------------
   // 5) NADA ENCONTRADO
@@ -68,8 +119,7 @@ export async function getCertOptions(senha, fallbackPfxPath = './GTO COMERCIO 20
 
 
 class ConsultaStatusNfeController {
-
-    async validarConsulta(req, res) {
+  async validarConsulta(req, res) {
     try {
 
       let { vendas } = req.body;
@@ -486,42 +536,6 @@ class ConsultaStatusNfeController {
     }
   }
 
-  async gerarPFX(req, res) {
-    try {
-      const pfxPath = path.resolve(__dirname, '../GTO COMERCIO 2026-2027.pfx');
-      const senha = '#GTO@2026#';
-      
-      // Verifica se o arquivo existe
-      if (!fs.existsSync(pfxPath)) {
-        return res.status(404).json({ 
-          error: 'Arquivo PFX não encontrado',
-          path: pfxPath 
-        });
-      }
-
-      // Lê o arquivo PFX
-      const pfxBuffer = fs.readFileSync(pfxPath);
-      
-      // Converte para base64
-      const pfxBase64 = pfxBuffer.toString('base64');
-      
-      return res.status(200).json({
-        message: 'Certificado PFX convertido para base64 com sucesso',
-        certificado: {
-          nome: 'GTO COMERCIO 2026-2027.pfx',
-          senha: senha,
-          base64: pfxBase64,
-          tamanho: pfxBuffer.length
-        }
-      });
-      
-    } catch (err) {
-      console.error('Erro ao gerar base64 do PFX:', err);
-      return res.status(500).json({ error: err.message });
-    }
-  } 
-
- 
 }
 
 export default new ConsultaStatusNfeController();

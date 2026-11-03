@@ -30,8 +30,8 @@ class DespesasControllersADM {
     }
 
     async getDetalheDespesas(req, res) {
-        let { idEmpresa, pageSize,  dataPesquisa } = req.query;
 
+        let { idEmpresa, pageSize,  dataPesquisa } = req.query;
         if (!isNaN(idEmpresa)) {
             idEmpresa = idEmpresa ? Number(idEmpresa) : '';
             dataPesquisa = dataPesquisa ? dataPesquisa : '';

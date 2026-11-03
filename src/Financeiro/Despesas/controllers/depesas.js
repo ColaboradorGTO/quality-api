@@ -14,7 +14,7 @@ const despesasServices = new DespesasServices(despesasClient);
 class DespesasControllers {
 
   async getListaDespesasLoja(req, res) {
-    let { idEmpresa, dataPesquisaInicio, dataPesquisaFim, idCategoria, page, pageSize } = req.query;
+    let { idDespesaLoja, idEmpresa, dataPesquisaInicio, dataPesquisaFim, idCategoria, page, pageSize } = req.query;
     idEmpresa = Number(idEmpresa) ? Number(idEmpresa) : '';
     dataPesquisaInicio = dataFormatada(dataPesquisaInicio) ? dataFormatada(dataPesquisaInicio) : '';
     dataPesquisaFim = dataFormatada(dataPesquisaFim) ? dataFormatada(dataPesquisaFim) : '';

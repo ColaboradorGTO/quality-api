@@ -147,7 +147,6 @@ class DashBoardVendasControllers {
         idEmpresa = idEmpresa ? idEmpresa : '';
         page = page ? page : '';
         pageSize = pageSize ? pageSize : '';
-        dataFechamento = dataFechamento ? dataFechamento : '';
         try {
 
             const apiUrl = `${url}/api/dashboard/venda/lista-caixas-movimento.xsjs?idEmpresa=${idEmpresa}&dataFechamento=${dataFechamento}&page=${page}&pageSize=${pageSize}`
@@ -269,8 +268,8 @@ class DashBoardVendasControllers {
         //idFuncPN = idFuncPN ? idFuncPN : '';
         //dataInicio = dataInicio ? dataInicio : '';
         idFuncionarioPN = idFuncionarioPN ? idFuncionarioPN : '';
-        dataFechamento = dataFechamento ? dataFechamento : '';
-        dataInicio = dataInicio ? dataInicio : '';
+        dataFormatada(dataFechamento);
+        dataFormatada(dataInicio);
         status = status ? status : '';
 
         /*  idEmpresaLogin = idEmpresaLogin ? idEmpresaLogin : '';
@@ -313,7 +312,7 @@ class DashBoardVendasControllers {
             pageSize = pageSize ? pageSize : '';
             page = page ? page : '';
             try {
-                const apiUrl = `${url}/api/dashboard/venda/vendedor.xsjs?page=${page}&pagesize=${pageSize}&idEmpresa=${idEmpresa}&dataFechamento=${dataFechamento}`
+                const apiUrl = `${url}/api/dashboard/venda/vendedor.xsjs?idEmpresa=${idEmpresa}&dataFechamento=${dataFechamento}&page=${page}&pagesize=${pageSize}`
                 const response = await axios.get(apiUrl)
 
                 return res.json(response.data); // Retorna

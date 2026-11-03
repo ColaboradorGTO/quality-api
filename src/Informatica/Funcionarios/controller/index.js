@@ -82,7 +82,7 @@ class FuncionarioController {
 
   }
 
- async putFuncionarioLoja(req, res) {
+  async putFuncionarioLoja(req, res) {
 
     try {
       const { error, value } = funcionarioSchemaPut.validate(req.body, {

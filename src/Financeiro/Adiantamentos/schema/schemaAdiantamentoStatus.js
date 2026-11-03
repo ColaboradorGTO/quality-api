@@ -2,6 +2,7 @@ import Joi from "joi";
 
 const schemaAdiantamentoStatus = Joi.object({
 
+
     IDADIANTAMENTOSALARIO: Joi.number().required()
         .messages({
             "any.required": "IDADIANTAMENTOSALARIO é obrigatório",

@@ -22,7 +22,7 @@ class ServiceLayerControllers {
         }
     }
 
-     async postDepositoIntegrarNoSAP(req, res) {
+    async postDepositoIntegrarNoSAP(req, res) {
         
         try {
 

@@ -87,4 +87,3 @@ class DescontoControllers {
 }
 
 export default new DescontoControllers();
-

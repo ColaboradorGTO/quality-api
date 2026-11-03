@@ -89,13 +89,18 @@ export class BalancoServices {
         return result;
     }
 
-
     async updateDetalheBalancoAvulso(
         IDEMPRESA,
         NUMEROCOLETOR,
         DSCOLETOR,
         IDPRODUTO,
-        TOTALCONTAGEMGERAL
+        CODIGODEBARRAS,
+        DSPRODUTO,
+        TOTALCONTAGEMGERAL,
+        PRECOCUSTO,
+        PRECOVENDA,
+        STCANCELADO,
+        INSBALANCO
     ) {
 
         const result = await this.client.atualizarDetalheBalancoAvulso(
@@ -103,7 +108,13 @@ export class BalancoServices {
             NUMEROCOLETOR,
             DSCOLETOR,
             IDPRODUTO,
-            TOTALCONTAGEMGERAL
+            CODIGODEBARRAS,
+            DSPRODUTO,
+            TOTALCONTAGEMGERAL,
+            PRECOCUSTO,
+            PRECOVENDA,
+            STCANCELADO,
+            INSBALANCO
         );
 
         return result;
@@ -202,4 +213,5 @@ export class BalancoServices {
         );
         return result;
     }
+
 }

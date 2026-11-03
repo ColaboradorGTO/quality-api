@@ -91,7 +91,6 @@ import ModulosControllers from './Modulos/controllers/modulos.js';
 import DanfeControllers from './Danfe/controllers/danfe.js';
 
 import PermissaoControllers from './Permissoes/controller/index.js';
-
 import GNRE from './Informatica/ConsultaNFCE/controllers/gnre.js'
 
 // DashBoard

@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import 'dotenv/config';
 const url = process.env.API_URL;
@@ -132,10 +131,10 @@ export class CaixaClient {
         STATUALIZA,
         STLIMPAR
     ) {
-        const response = await this.api.put(`${url}/api/informatica/atualizar_todos_caixa.xsjs`, [{
+        const response = await this.api.put(`${url}/api/informatica/atualizar_todos_caixa.xsjs`, {
             STATUALIZA,
             STLIMPAR
-        }])
+        })
         return response.data;
     }
 }

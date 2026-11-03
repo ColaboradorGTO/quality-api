@@ -1,18 +1,15 @@
-import 'dotenv/config';
 import axios from "axios";
-import updateBalancoConsolidadoSchema from '../schema/confirmarConsolidarBalanco.js';
-import updateDetalheBalancoAvulsoSchema from '../schema/atualizarDetalheBalancoAvulso.js';
-import confirmarBalancoSchema from '../schema/confirmarBalanco.js';
 import { BalancoClient } from '../client/index.js'
 import { BalancoServices } from '../services/index.js'
 import { dataFormatada } from "../../../utils/dataFormatada.js";
-import atualizarConsolidarBalancoSchema from '../schema/atualizarConsolidarBalanco.js';
-import atualizarPrepararLojaPrimeiroBalancoSchema from '../schema/atualizarListaPrepararPrimeiroBalancoLoja.js';
-import atualizarListaDetalhesBalancoSchema from '../schema/atualizarListaDetalhesBalancoSchema.js.js';
-import criarDetalheBalancoAvulsoSchema, { criarResumoBalancoSchema } from '../schema/criarDetalheBalanco.js';
-import atualizarColetorBalancoSchema from '../schema/atualizarColetorBalanco.js';
-import updateConfirmarPrestacaoContasSchema from '../schema/confirmarPrestacaoContas.js';
-
+import updateBalancoConsolidadoSchema from '../schema/confirmarConsolidarBalanco.js';
+import updateDetalheBalancoAvulsoSchema from '../schema/atualizarDetalheBalancoAvulso.js';
+import atualizarConsolidarBalancoSchema from "../schema/atualizarConsolidarBalanco.js";
+import atualizarPrepararLojaPrimeiroBalancoSchema from "../schema/atualizarListaPrepararPrimeiroBalancoLoja.js";
+import atualizarListaDetalhesBalancoSchema from "../schema/atualizarListaDetalhesBalancoSchema.js.js";
+import atualizarColetorBalancoSchema from "../schema/atualizarColetorBalanco.js";
+import updateConfirmarPrestacaoContasSchema from "../schema/confirmarPrestacaoContas.js";
+import criarDetalheBalancoAvulsoSchema, { criarResumoBalancoSchema } from "../schema/criarDetalheBalanco.js";
 
 const balancoClient = new BalancoClient(process.env.API_URL);
 const balancoServices = new BalancoServices(balancoClient);
@@ -51,6 +48,7 @@ class AdmBalancoControllers {
         pageSize = pageSize ? pageSize : '';
 
         try {
+            //http://164.152.245.77:8000/quality/concentrador/api/administrativo/coletor-balanco.xsjs?page=2&idEmpresa=1&idresumo=1720
             const apiUrl = `${url}/api/administrativo/coletor-balanco.xsjs?idresumo=${idResumo}&idempresa=${idEmpresa}&descProduto=${descricaoProduto}&page=${page}&pageSize=${pageSize}`
             const response = await axios.get(apiUrl)
 
@@ -131,23 +129,6 @@ class AdmBalancoControllers {
         }
     }
 
-    // async getListaNovoPreviaBalanco(req, res) {
-    //     let { idResumoBalanco,  page, pageSize } = req.query;
-
-    //     idResumoBalanco = idResumoBalanco ? idResumoBalanco : '';
-    //     page = page ? page : '';
-    //     pageSize = pageSize ? pageSize : '';
-    //     try {
-
-    //         const response = await getNovoPreviaBalanco(idResumoBalanco, page, pageSize)
-    //         return res.json(response); 
-    //     } catch (error) {
-    //         console.error("Unable to connect to the database:", error);
-    //         throw error;
-    //     }
-
-    // }
-
     async getListaDetalheBalancoAvulso(req, res) {
         let { idFilial, coletor, page, pageSize } = req.query;
 
@@ -223,7 +204,6 @@ class AdmBalancoControllers {
         }
     }
 
-
     async putConsolidarBalanco(req, res) {
 
         try {
@@ -255,7 +235,6 @@ class AdmBalancoControllers {
 
         }
     }
-
 
     async putListaPrepararPrimeiroBalancoLoja(req, res) {
 
@@ -321,6 +300,7 @@ class AdmBalancoControllers {
 
     async putListaDetalheBalancoAvulso(req, res) {
         try {
+
             const { error, value } = updateDetalheBalancoAvulsoSchema.validate(req.body, {
                 abortEarly: false,
                 stripUnknown: true
@@ -447,7 +427,7 @@ class AdmBalancoControllers {
         }
     }
 
-     async putColetorBalanco(req, res) {
+    async putColetorBalanco(req, res) {
         try {
 
             const { error, value } = atualizarColetorBalancoSchema.validate(req.body, {
@@ -477,7 +457,6 @@ class AdmBalancoControllers {
         }
     }
 
-
     async putConfirmarPrestacaoContas(req, res) {
         try {
 
@@ -506,8 +485,6 @@ class AdmBalancoControllers {
             return res.status(500).json({ message: 'Erro balancoControllers.putConfirmarPrestacaoContas', error });
         }
     }
-
-
 
     async putConfirmarConsolidarBalanco(req, res) {
         try {
@@ -540,6 +517,7 @@ class AdmBalancoControllers {
             return res.status(500).json({ message: 'Erro balancoControllers.putConfirmarConsolidarBalanco', error });
         }
     }
+
 }
 
 export default new AdmBalancoControllers();

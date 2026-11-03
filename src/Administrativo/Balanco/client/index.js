@@ -60,14 +60,13 @@ export class BalancoClient {
         return response.data;
     }
 
-
-
     async atualizarDetalheBalancoAvulso(
         IDEMPRESA,
         NUMEROCOLETOR,
         DSCOLETOR,
         IDPRODUTO,
         TOTALCONTAGEMGERAL
+
     ) {
         const response = await this.api.put(`${url}/api/administrativo/detalhe-balanco-avulso.xsjs`, {
             IDEMPRESA,
@@ -81,17 +80,17 @@ export class BalancoClient {
     }
 
     async criarConfirmarBalanco(
+        IDEMPRESA,
         DSRESUMOBALANCO,
         DTABERTURA,
         DTFECHAMENTO,
-        IDEMPRESA,
-        INSBALANCO,
-        QTDTOTALFALTA,
         QTDTOTALITENS,
         QTDTOTALSOBRA,
-        STATIVO,
+        QTDTOTALFALTA,
         TXTOBSERVACAO,
-        det
+        STATIVO,
+        INSBALANCO,
+
     ) {
         const response = await this.api.post(`${url}/api/administrativo/detalhe-balanco-avulso.xsjs`, {
             DSRESUMOBALANCO,
@@ -104,7 +103,6 @@ export class BalancoClient {
             QTDTOTALSOBRA,
             STATIVO,
             TXTOBSERVACAO,
-            det
         });
         return response.data;
     }
@@ -222,5 +220,4 @@ export class BalancoClient {
         );
         return response.data;
     }
-
-}
+}  

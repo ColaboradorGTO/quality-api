@@ -77,7 +77,7 @@ class AdministrativoControllers {
             idEmpresa = Number(idEmpresa) ? Number(idEmpresa) : '';
             pageSize = pageSize ? pageSize : '';
             dataFechamento = dataFormatada(dataFechamento)
-            // ajaxGet('api/administrativo/lista-caixas-fechados.xsjs?idEmpresa=' + idemp + '&dataFechamento=' + dataFechamento)
+         
             try {
                 const apiUrl = `${url}/api/administrativo/lista-caixas-fechados.xsjs?pagesize=${pageSize}&idEmpresa=${idEmpresa}&dataFechamento=${dataFechamento}`
                 const response = await axios.get(apiUrl)
@@ -503,10 +503,10 @@ class AdministrativoControllers {
         if (!isNaN(idEmpresa)) {
             idEmpresa = Number(idEmpresa) ? Number(idEmpresa) : '';
            
-            datapesq = dataFormatada(datapesq) ? datapesq : '';
+            datapesq = datapesq ? datapesq : '';
             page = page ? page : '';
             pageSize = pageSize ? pageSize : '';
-            // ajaxGet('api/administrativo/detalhe-voucher.xsjs?idEmpresa=' + idemp + '&dataPesquisa=' + datapesq)
+           
             try {
                 const apiUrl = `${url}/api/administrativo/detalhe-voucher.xsjs?pagesize=${pageSize}&idEmpresa=${idEmpresa}&dataPesquisa=${datapesq}`
                 const response = await axios.get(apiUrl)
@@ -684,7 +684,7 @@ class AdministrativoControllers {
         
         try {
             // ajaxGet('api/administrativo/novo-previa-balanco.xsjs?page=' + numPage + '&id=' + idresumoPreviaBalanco + '&idempresa=' + idempresaPreviaBalanco + '&processa=' + processaPreviaBalanco + '&diferenca=' + diferencaPreviaBalanco)
-
+             //164.152.245.77:8000/quality/concentrador/api/administrativo/novo-previa-balanco.xsjs?page=3&id=1720&idempresa=1&processa=0&diferenca=1
             const apiUrl = `${url}/api/administrativo/novo-previa-balanco.xsjs?id=${idResumo}&idempresa=${idEmpresa}&processa=&${processa}&diferenca=${diferenca}&page=${page}&pageSize=${pageSize}`
             const response = await axios.get(apiUrl)
 
@@ -703,7 +703,7 @@ class AdministrativoControllers {
             coletor = coletor ? coletor : '';
             
         try {
-            const apiUrl = `${url}/api/administrativo/detalhe-balanco-avulso.xsjs?page=1&idfilial=${idFilial}&coletor=${coletor}`
+            const apiUrl = `http://164.152.245.77:8000/quality/concentrador_homologacao/api/administrativo/detalhe-balanco-avulso.xsjs?page=1&idfilial=${idFilial}&coletor=${coletor}`
             const response = await axios.get(apiUrl)
 
             return res.json(response.data); // Retorna
@@ -881,6 +881,7 @@ class AdministrativoControllers {
         pageSize = pageSize ? pageSize : ''
         try {
             // ${url}/api/resumo-voucher/detalhe-voucher-dados.xsjs?page=1&dataPesquisaInicio=2024-01-03&dataPesquisaFim=2024-01-03&subgrupoEmpresa=1&idEmpresa=1
+            //const apiUrl = `${url}/api/administrativo/detalhe-voucher-dados.xsjs?dadosVoucher=${dadosVoucher}&dataPesquisaInicio=${dataPesquisaInicio}&dataPesquisaFim=${dataPesquisaFim}&page=${page}&pageSize=${pageSize}`
             const apiUrl = `${url}/api/administrativo/detalhe-voucher-dados.xsjs?dadosVoucher=${dadosVoucher}&dataPesquisaInicio=${dataPesquisaInicio}&dataPesquisaFim=${dataPesquisaFim}&page=${page}&pageSize=${pageSize}`
             const response = await axios.get(apiUrl)
             // const response = await getDetalheVoucherDados(idSubGrupoEmpresa, idEmpresa, idVoucher, dataPesquisaInicio, dataPesquisaFim, dadosVoucher, stStatus, stTipoTroca, page, pageSize)
