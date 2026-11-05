@@ -111,10 +111,10 @@ class ServiceLayerControllers {
           
             let { IDDESPESASLOJA, IDFUNCIONARIO } = req.body;
    
-            const response = await axios.post(`${url}/api/service-layer/despesa/jobs/despesas-integracao.xsjs`, [{
+            const response = await axios.post(`${url}/api/service-layer/despesa/jobs/despesas-integracao.xsjs`, {
                 IDDESPESASLOJA,
                 IDFUNCIONARIO,
-            }])
+            })
 
             return res.status(200).json(response.data);
         } catch (error) {
