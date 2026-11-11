@@ -251,7 +251,10 @@ routes.get('/ping', ApiPing.index);
 
 routes.post('/login', AuthentiCationController.login);
 routes.post('/login2', AuthentiCationController.login);
+routes.post('/hash-senha', AuthentiCationController.criarHashSenha);
 routes.post('/gerar-danfe', DanfeControllers.gerarDanfeLocal);
+
+routes.put('/cadastrar-hash', FuncionarioController.putCadastrarHashFuncionario);
 
 // routes.use(authMiddleware)
 
@@ -280,6 +283,7 @@ routes.get('/listaMenusFilhos', PermissaoControllers.getListaMenusFilhos)
 
 //routes.put('/perfil-usuario/:id', ModulosControllers.putPerfilUsuarioMenu)
 routes.put('/perfil-usuario/:id', PermissaoControllers.putPerfilUsuarioMenu)
+routes.put('/perfil-update/:id', PermissaoControllers.putUpdatePerfilUsuario)
 //routes.put('/funcionario-departamento/:id', ModulosControllers.putFuncionarioDepartamento)
 routes.put('/funcionario-departamento/:id', PermissaoControllers.putFuncionarioDepartamento)
 routes.put('/menu-filho/:id', PermissaoControllers.putAtualizarMenuFilho)
