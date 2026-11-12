@@ -285,36 +285,33 @@ class AdiantamentosControllers {
   }
 
    async putPagamentoDepartamento(req, res) {
-
+      let {
+      IDPAGAMENTO,
+      IDADIANTAMENTO,
+      VLPAGAMENTO,
+      DATAPAGAMENTO,
+      FORMAPAGAMENTO,
+      ANEXOCOMPROVANTE,
+      DSOBSERVACAO,
+      STPAGAMENTO,
+      IDUSUARIOCRIACAO
+    } = req.body
     try {
-      const { error, value } = schemaAtualizarPagamentoDepartamento.validate(req.body, {
-        abortEarly: false,
-        stripUnknown: true
-      });
+      
 
-      if (error) {
-        return res.status(400).json({
-          message: 'Dados inválidos',
-          errors: error.details.map(detail => ({
-            field: detail.path.join('.'),
-            message: detail.message
-          }))
-        });
-      }
+      const response = await axios.put(`${url}/api/financeiro/pagamento-adiantamento.xsjs`, [{
+        IDPAGAMENTO,
+        IDADIANTAMENTO,
+        VLPAGAMENTO,
+        DATAPAGAMENTO,
+        FORMAPAGAMENTO,
+        ANEXOCOMPROVANTE,
+        DSOBSERVACAO,
+        STPAGAMENTO,
+        IDUSUARIOCRIACAO
+      }]);
 
-      const response = await adiantamentoService.updatePagamentoDepartamento(
-        value.IDPAGAMENTO,
-        value.IDADIANTAMENTO,
-        value.VLPAGAMENTO,
-        value.DATAPAGAMENTO,
-        value.FORMAPAGAMENTO,
-        value.ANEXOCOMPROVANTE,
-        value.DSOBSERVACAO,
-        value.STATUS,
-        value.IDUSUARIOCRIACAO
-      );
-
-      return res.status(200).json(response);
+      return res.status(200).json(response.data);
     } catch (error) {
       console.log('Erro no AdiantamentosControllers.putPagamentoDepartamento', error);
       return res.status(500).json({ message: 'Erro ao criar Adiantamento Departamento.' });
@@ -411,7 +408,7 @@ class AdiantamentosControllers {
       return res.status(500).json({ message: 'Erro ao criar Adiantamento Departamento.' });
 
     }
-  }
+  } 
 
   async postPagamentoDepartamento(req, res) {
     let {
@@ -421,11 +418,11 @@ class AdiantamentosControllers {
       FORMAPAGAMENTO,
       ANEXOCOMPROVANTE,
       DSOBSERVACAO,
-      STATUS,
+      STPAGAMENTO,
       IDUSUARIOCRIACAO
     } = req.body
     try {
-    
+     
 
       const response = await axios.post(`${url}/api/financeiro/pagamento-adiantamento.xsjs`, [{
         IDADIANTAMENTO,
@@ -434,7 +431,7 @@ class AdiantamentosControllers {
         FORMAPAGAMENTO,
         ANEXOCOMPROVANTE,
         DSOBSERVACAO,
-        STATUS,
+        STPAGAMENTO,
         IDUSUARIOCRIACAO
       }]);
 
