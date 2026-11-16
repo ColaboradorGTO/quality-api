@@ -26,7 +26,7 @@ process.on('warning', (warning) => {
   console.warn(warning);
 });
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 // Criar HTTPS Agent global que desabilita verificação de certificado
 const httpsAgent = new https.Agent({
