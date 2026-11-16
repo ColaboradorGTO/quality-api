@@ -587,6 +587,7 @@ routes.put('/adiantamento-departamento/:id', AdiantamentosControllers.putAdianta
 routes.put('/pagamento-departamento/:id', AdiantamentosControllers.putPagamentoDepartamento)
 routes.post('/adiantamento-departamento', AdiantamentosControllers.postAdiantamentoDepartamento)
 routes.post('/upload-anexo-adiantamento', uploadAnexo.single('arquivo'), AdiantamentosControllers.postUploadAnexoAdiantamento)
+routes.post('/upload-anexo-adiantamento/token', AdiantamentosControllers.postTokenUploadAnexoAdiantamento)
 routes.post('/pagamento-departamento', AdiantamentosControllers.postPagamentoDepartamento)
 
 // Caixas
