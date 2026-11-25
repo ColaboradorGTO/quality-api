@@ -964,7 +964,7 @@ class AdministrativoControllers {
         
     }
 
-    async putEditarVoucher(req, res) {
+/*     async putEditarVoucher(req, res) {
         
         try {            
 
@@ -1000,7 +1000,7 @@ class AdministrativoControllers {
             console.error("Erro no AdministativoControllers.putEditarVoucher:", error);
             return res.status(500).json({ error: "Erro ao conectar ao servidor" });
         }   
-    }
+    } */
 
 }
 
